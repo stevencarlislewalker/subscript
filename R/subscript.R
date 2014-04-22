@@ -64,6 +64,8 @@ subscript.dist <- function(x, i, ...){
                                         # stop('code not writen yet')
     mc <- match.call(expand.dots = FALSE)
     mc[[1]] <- quote(subscript::conversion)
+    mc$nms <- dimnames(x)
+    mc$x <- NULL
     i <- eval(mc)
     # i <- conversion(i)
     
@@ -99,6 +101,8 @@ subscript.dist <- function(x, i, ...){
 subscript.phylo <- function(x, i, ...){
     mc <- match.call(expand.dots = FALSE)
     mc[[1]] <- quote(subscript::conversion)
+    mc$nms <- dimnames(x)
+    mc$x <- NULL
     i <- eval(mc)
     
     inot <- setdiff(seq_len(Ntip(x)), i)

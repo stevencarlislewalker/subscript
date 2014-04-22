@@ -4,11 +4,11 @@
 \alias{subscript.default}
 \title{Subscript}
 \usage{
-  subscript(x, ...)
+subscript(x, i, ...)
 
-  ss(x, ...)
+ss(x, i, ...)
 
-  \method{subscript}{default} (x, ...)
+\method{subscript}{default}(x, i)
 }
 \arguments{
   \item{x}{An object with data to be subscripted.}
@@ -17,9 +17,9 @@
   \code{x}.}
 }
 \value{
-  A subscripted version of \code{x}.
+A subscripted version of \code{x}.
 }
 \description{
-  Generic function for subscripting data objects.
+Generic function for subscripting data objects.
 }
 

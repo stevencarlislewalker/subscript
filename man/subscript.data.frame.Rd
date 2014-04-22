@@ -2,7 +2,7 @@
 \alias{subscript.data.frame}
 \title{Subscript a data frame}
 \usage{
-  \method{subscript}{data.frame} (x, i, ...)
+\method{subscript}{data.frame}(x, i, ...)
 }
 \arguments{
   \item{x}{A data frame.}
@@ -12,9 +12,9 @@
   \item{...}{Not used.}
 }
 \value{
-  A subscripted data frame
+A subscripted data frame
 }
 \description{
-  Subscript a data frame by rows (i.e. replicates) only.
+Subscript a data frame by rows (i.e. replicates) only.
 }
 

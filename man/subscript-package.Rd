@@ -3,6 +3,6 @@
 \alias{subscript-package}
 \title{Consistent subscripting}
 \description{
-  Consistent subscripting
+Consistent subscripting
 }
 

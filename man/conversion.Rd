@@ -5,13 +5,13 @@
 \alias{conversion.logical}
 \title{Convert non-integer subscript to integer}
 \usage{
-  conversion(i, ...)
+conversion(i, x, ...)
 
-  \method{conversion}{default} (i, ...)
+\method{conversion}{default}(i, x, ...)
 
-  \method{conversion}{character} (i, nms, ...)
+\method{conversion}{character}(i, x, ...)
 
-  \method{conversion}{logical} (i, d, ...)
+\method{conversion}{logical}(i, d, ...)
 }
 \arguments{
   \item{i}{non-integer subscript (or list of non-integer
@@ -24,9 +24,9 @@
   \item{d}{vector of the lengths of each dimension}
 }
 \value{
-  Subscripts in integer form
+Subscripts in integer form
 }
 \description{
-  Convert non-integer subscript to integer
+Convert non-integer subscript to integer
 }
 

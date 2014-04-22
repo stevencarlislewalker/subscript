@@ -2,7 +2,7 @@
 \alias{subscript.phylo}
 \title{Subscript a phylogenetic tree}
 \usage{
-  \method{subscript}{phylo} (x, i, ...)
+\method{subscript}{phylo}(x, i, ...)
 }
 \arguments{
   \item{x}{A \code{\link{phylo}} object.}
@@ -12,9 +12,9 @@
   \item{...}{Not used.}
 }
 \value{
-  A phylogenetic tree.
+A phylogenetic tree.
 }
 \description{
-  Subscript the tips of a \code{\link{phylo}} object.
+Subscript the tips of a \code{\link{phylo}} object.
 }
 

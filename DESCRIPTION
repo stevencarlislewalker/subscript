@@ -9,6 +9,3 @@ Depends:
     ape
 Description: Consistent subscripting across data objects of various classes.
 License: GPL-2
-Collate:
-    'subscript.R'
-    'conversions.R'

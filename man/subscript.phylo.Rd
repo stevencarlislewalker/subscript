@@ -1,0 +1,20 @@
+\name{subscript.phylo}
+\alias{subscript.phylo}
+\title{Subscript a phylogenetic tree}
+\usage{
+  \method{subscript}{phylo} (x, i, ...)
+}
+\arguments{
+  \item{x}{A \code{\link{phylo}} object.}
+
+  \item{i}{Indices for the tips.}
+
+  \item{...}{Not used.}
+}
+\value{
+  A phylogenetic tree.
+}
+\description{
+  Subscript the tips of a \code{\link{phylo}} object.
+}
+

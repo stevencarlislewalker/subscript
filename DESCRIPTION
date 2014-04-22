@@ -1,0 +1,14 @@
+Package: subscript
+Type: Package
+Title: Subscript
+Version: 0.1
+Date: 2012-12-23
+Author: Steve Walker
+Maintainer: Steve Walker <steve.walker@utoronto.ca>
+Depends:
+    ape
+Description: Consistent subscripting across data objects of various classes.
+License: GPL-2
+Collate:
+    'subscript.R'
+    'conversions.R'

@@ -35,6 +35,7 @@ conversion.character <- function(i, nms, ...){
 #' @S3method conversion logical
 #' @method conversion logical
 conversion.logical <- function(i, nms, ...){
+    stop("not finished")
     fun <- function(ii, dd) c(which(ii), (1 + length(ii)):dd)
     mapply(fun, i, d, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 }

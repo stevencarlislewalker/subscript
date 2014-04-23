@@ -53,29 +53,24 @@ subscript.data.frame <- function(x, i, ...) x[i, ]
 #' @return A subscripted \code{\link{dist}} object.
 #' @export 
 #' @method subscript dist
-subscript.dist <- function(x, i, ...){
-  
-                                        # TODO: handle different kinds
-                                        # of subscripting
-                                        # (e.g. logical, character,
-                                        # factor)
-  
-                                        # if(is.character(i))
-                                        # stop('code not writen yet')
+subscript.dist <- function(x, i, ...){  
+
+                                        # convert subscript type to
+                                        # numeric
     mc <- match.call(expand.dots = FALSE)
     mc[[1]] <- quote(subscript::conversion)
     mc$nms <- dimnames(x)
     mc$x <- NULL
     i <- eval(mc)
-    # i <- conversion(i)
-    
+
+                                        # compute subscript
     n <- attr(x, 'Size') # size of matrix
-    ir <- rep(1:(n-1), (n-1):1) # row indices to keep
-    ic <- ir + sequence((n-1):1) # col indices to keep
-    
-    ii <- order((match(ir, i) * match(ic, i)), na.last = NA)
-    out <- x[ii]
-    
+    iRow <- rep(1:(n-1), (n-1):1) # row indices to keep
+    iCol <- iRow + sequence((n-1):1) # col indices to keep
+    iVector <- order((match(iRow, i) * match(iCol, i)), na.last = NA)
+    out <- x[iVector]
+
+                                        # fix up attributes
     attributes(out) <- attributes(x)
     attr(out, 'Size') <- length(i)
     if(is.null(attr(out, 'Labels'))) 
@@ -99,12 +94,14 @@ subscript.dist <- function(x, i, ...){
 #' @method subscript phylo
 #' @export
 subscript.phylo <- function(x, i, ...){
+                                        # convert to numeric
     mc <- match.call(expand.dots = FALSE)
     mc[[1]] <- quote(subscript::conversion)
     mc$nms <- dimnames(x)
     mc$x <- NULL
     i <- eval(mc)
-    
+
+                                        # compute subscript
     inot <- setdiff(seq_len(Ntip(x)), i)
     drop.tip(x, inot)
 }

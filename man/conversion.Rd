@@ -5,13 +5,13 @@
 \alias{conversion.logical}
 \title{Convert non-integer subscript to integer}
 \usage{
-conversion(i, x, ...)
+conversion(i, nms, ...)
 
-\method{conversion}{default}(i, x, ...)
+\method{conversion}{default}(i, nms, ...)
 
-\method{conversion}{character}(i, x, ...)
+\method{conversion}{character}(i, nms, ...)
 
-\method{conversion}{logical}(i, d, ...)
+\method{conversion}{logical}(i, nms, ...)
 }
 \arguments{
   \item{i}{non-integer subscript (or list of non-integer

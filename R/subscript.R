@@ -105,3 +105,11 @@ subscript.phylo <- function(x, i, ...){
     inot <- setdiff(seq_len(Ntip(x)), i)
     drop.tip(x, inot)
 }
+
+subscript.speciesList <- function(x, i, ...){
+    ## i[[1]] <- conversion(i[[1]], names(x))
+    x <- x[i[[1]]]
+    out <- lapply(x, intersect, i[[2]])
+    class(out) <- "speciesList"
+    return(out)
+}

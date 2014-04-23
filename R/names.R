@@ -1,13 +1,14 @@
 ##' Set dimnames names
 ##' 
 ##' @export
-dimnamesNames <- function(x, nms) {
-    out <- try(names(dimnames(x)) <- nms, silent = TRUE)
+dnamesNames <- function(x, nms) {
+    if(is.data.frame(x)) return(structure(x, dnamesNames = nms))
+    out <- try(names(dnames(x)) <- nms, silent = TRUE)
     if(inherits(out, "try-error")) {
-        if(length(nms) == length(dimnames(x)))
-            out <- structure(x, dimnamesNames = nms)
+        if(length(nms) == length(dnames(x)))
+            out <- structure(x, dnamesNames = nms)
         else
-            stop("unable to set names for dimnames")
+            stop("unable to set names for dnames")
     }
     return(out)
 }
@@ -17,30 +18,37 @@ dimnamesNames <- function(x, nms) {
 ## use dimnames for rows and columns, even though in \pkg{subscript}
 ## land this doesn't work really.
 
-##' @S3method dimnames dist
-##' @export
-dimnames.dist <- function(x) {
-                                        # FIXME: DRY, see below
-    out <- list(attr(x, "Labels"))
-    dnn <- attr(x, "dimnamesNames")
-    if(!is.null(dnn)) names(out) <- dnn
-    return(out)
+dnamesNamesExtract <- function(x, dn) {
+    dnn <- attr(x, "dnamesNames")
+    if(!is.null(dnn)) names(dn) <- dnn
+    return(dn)
 }
 
-##' @S3method dimnames phylo
+##' Extract subscript dimension names
+##'
+##' @param x Dimensioned object
+##' @return character vector with dimension names
 ##' @export
-dimnames.phylo <- function(x) {
-    out <- list(x$tip.label)
-    dnn <- attr(x, "dimnamesNames")
-    if(!is.null(dnn)) names(out) <- dnn
-    return(out)
+dnames <- function(x) {
+    UseMethod("dnames")
 }
 
-##' @S3method dimnames speciesList
+##' @S3method dnames default
 ##' @export
-dimnames.speciesList <- function(x) {
-    out <- list(names(x), unique(unlist(x)))
-    dnn <- attr(x, "dimnamesNames")
-    if(!is.null(dnn)) names(out) <- dnn
-    return(out)
-}
+dnames.default <- function(x) dimnames(x)
+
+##' @S3method dnames data.frame
+##' @export
+dnames.data.frame <- function(x) dnamesNamesExtract(x, list(rownames(x)))
+
+##' @S3method dnames dist
+##' @export
+dnames.dist <- function(x) dnamesNamesExtract(x, list(attr(x, "Labels")))
+
+##' @S3method dnames phylo
+##' @export
+dnames.phylo <- function(x) dnamesNamesExtract(x, list(x$tip.label))
+
+##' @S3method dnames speciesList
+##' @export
+dnames.speciesList <- function(x) dnamesNamesExtract(x, list(names(x), unique(unlist(x))))

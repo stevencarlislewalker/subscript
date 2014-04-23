@@ -19,7 +19,7 @@ conversion(i, nms, ...)
 
   \item{...}{additional info about the object}
 
-  \item{nms}{list of dimnames}
+  \item{nms}{list of dnames}
 
   \item{d}{vector of the lengths of each dimension}
 }

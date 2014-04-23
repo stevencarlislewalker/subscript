@@ -14,12 +14,12 @@ conversion.default <- function(i, nms, ...) {
     if(!is.recursive(i)) return(i)
                                         # FIXME: testing for
                                         # complementary i and
-                                        # dimnames(x)
+                                        # nms
     return(mapply(conversion, i, nms, SIMPLIFY = FALSE))
 }
 
 
-#' @param nms list of dimnames
+#' @param nms list of dnames
 #' @rdname conversion
 #' @S3method conversion character
 #' @method conversion character

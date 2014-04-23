@@ -1,3 +1,16 @@
+##' Poly data frame
+##'
+##' Data frame with unusual shape
+##'
+##' 
+poly.data.frame <- function(..., dimids) {
+
+    out <- list(...)
+    
+
+}
+
+
 ##' Species list
 ##'
 ##' @param x List of character vectors giving the names of species

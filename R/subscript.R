@@ -59,7 +59,7 @@ subscript.dist <- function(x, i, ...){
                                         # numeric
     mc <- match.call(expand.dots = FALSE)
     mc[[1]] <- quote(subscript::conversion)
-    mc$nms <- dimnames(x)
+    mc$nms <- dimnames(x)[[1]]
     mc$x <- NULL
     i <- eval(mc)
 
@@ -97,7 +97,7 @@ subscript.phylo <- function(x, i, ...){
                                         # convert to numeric
     mc <- match.call(expand.dots = FALSE)
     mc[[1]] <- quote(subscript::conversion)
-    mc$nms <- dimnames(x)
+    mc$nms <- dimnames(x)[[1]]
     mc$x <- NULL
     i <- eval(mc)
 

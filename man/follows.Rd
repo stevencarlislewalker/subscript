@@ -25,5 +25,8 @@ Composition of two functions.
 sqr <- function(x) x^2
 min10 <- function(x) x - 10
 (sqr \%f\% min10)(2)
+div5 <- function(x) x/5
+(sqr \%f\% min10 \%f\% div5)(2)
+(unique \%f\% unlist \%f\% `[`)(letters[1:10], c(3, 2))
 }
 

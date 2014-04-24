@@ -1,12 +1,14 @@
 ##' Follows
 ##'
-##' Composition of two functions.
+##' Syntactic sugar for composition of two functions. Useful for apply
+##' functions.
 ##' 
-##' @param f a function of one variable
+##' @param f a function of one argument
 ##' @param g another function with range equal to the domain of
 ##' \code{f}
 ##' @param ... additional arguments to \code{g}
-##' @return The function given by \code{f} follows \code{g}.
+##' @return The function given by \code{f} follows \code{g} of
+##' \code{x}.
 ##' @rdname follows
 ##' @export
 ##' @examples

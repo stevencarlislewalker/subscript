@@ -8,7 +8,7 @@ follows(f, g)
 f \%f\% g
 }
 \arguments{
-  \item{f}{a function of one variable}
+  \item{f}{a function of one argument}
 
   \item{g}{another function with range equal to the domain
   of \code{f}}
@@ -16,10 +16,12 @@ f \%f\% g
   \item{...}{additional arguments to \code{g}}
 }
 \value{
-The function given by \code{f} follows \code{g}.
+The function given by \code{f} follows \code{g} of
+\code{x}.
 }
 \description{
-Composition of two functions.
+Syntactic sugar for composition of two functions. Useful
+for apply functions.
 }
 \examples{
 sqr <- function(x) x^2

@@ -34,7 +34,10 @@ dNames <- function(x) {
 
 ##' @S3method dNames default
 ##' @export
-dNames.default <- function(x) dimnames(x)
+dNames.default <- function(x) {
+    if(is.null(dn <- dimnames(x))) return(names(x))
+    return(dn)
+}
 
 ##' @S3method dNames data.frame
 ##' @export
@@ -50,12 +53,15 @@ dNames.phylo <- function(x) dIdsExtract(x, list(x$tip.label))
 
 ##' @S3method dNames speciesList
 ##' @export
-dNames.speciesList <- function(x) dIdsExtract(x, list(names(x), unique(unlist(x))))
+dNames.speciesList <- function(x) dIdsExtract(x,
+                                              list(names(x),
+                                                   (unique %f% unlist)(x)))
 
 ##' @S3method dNames poly.data.frame
 ##' @export
 dNames.poly.data.frame <- function(x) {
-    summaryConcat <- sapply(dIdsUnique(pdf), "==", dIdsConcat(pdf))
-    fn <- function(i) unique(unlist(dNamesConcat(x)[i]))
-    apply(summaryConcat, 2, fn)
+    apply(sapply(dIdsUnique(pdf), "==", dIdsConcat(pdf)),
+          2,
+          unique %f% unlist %f% `[`,
+          x = dNamesConcat(x))
 }

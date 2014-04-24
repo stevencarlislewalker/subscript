@@ -24,9 +24,6 @@ conversion.default <- function(i, nms, ...) {
 ##' @S3method conversion character
 ##' @method conversion character
 conversion.character <- function(i, nms, ...){
-    ## stop('code not yet writen')
-    ## function(ii, nm) nm[ii]
-    ## mapply(match, i, nms, SIMPLIFY = FALSE, USE.NAMES = FALSE)
     match(i, nms)
 }
 
@@ -35,8 +32,6 @@ conversion.character <- function(i, nms, ...){
 ##' @method conversion logical
 conversion.logical <- function(i, nms, ...){
     stop("not finished")
-    ## fun <- function(ii, dd) c(which(ii), (1 + length(ii)):dd)
-    ## mapply(fun, i, d, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 }
 
 ##' @rdname conversion

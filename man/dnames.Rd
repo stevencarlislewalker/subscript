@@ -1,8 +1,8 @@
-\name{dnames}
-\alias{dnames}
+\name{dNames}
+\alias{dNames}
 \title{Extract subscript dimension names}
 \usage{
-dnames(x)
+dNames(x)
 }
 \arguments{
   \item{x}{Dimensioned object}

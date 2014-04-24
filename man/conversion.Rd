@@ -3,6 +3,7 @@
 \alias{conversion.character}
 \alias{conversion.default}
 \alias{conversion.logical}
+\alias{conversion.matrix}
 \title{Convert non-integer subscript to integer}
 \usage{
 conversion(i, nms, ...)
@@ -12,6 +13,8 @@ conversion(i, nms, ...)
 \method{conversion}{character}(i, nms, ...)
 
 \method{conversion}{logical}(i, nms, ...)
+
+\method{conversion}{matrix}(i, nms, ...)
 }
 \arguments{
   \item{i}{non-integer subscript (or list of non-integer
@@ -19,9 +22,7 @@ conversion(i, nms, ...)
 
   \item{...}{additional info about the object}
 
-  \item{nms}{list of dnames}
-
-  \item{d}{vector of the lengths of each dimension}
+  \item{nms}{list of dNames}
 }
 \value{
 Subscripts in integer form

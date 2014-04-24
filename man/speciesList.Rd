@@ -9,6 +9,8 @@ speciesList(x, nms, ...)
   species present at various sites.}
 
   \item{nms}{Optional names for the sites.}
+
+  \item{...}{Not used.}
 }
 \value{
 \code{speciesList} object

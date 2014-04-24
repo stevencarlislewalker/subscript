@@ -1,25 +1,24 @@
 ##' Set dimnames names
-##' 
+##'
+##' @param x An object
+##' @param ids Identifiers for object dimensions
+##' @return The object with dimension identifiers
 ##' @export
-dnamesNames <- function(x, nms) {
-    if(is.data.frame(x)) return(structure(x, dnamesNames = nms))
-    out <- try(names(dnames(x)) <- nms, silent = TRUE)
+dIds <- function(x, ids) {
+    if(is.data.frame(x)) return(structure(x, dIds = ids))
+    out <- try(names(dimnames(x)) <- ids, silent = TRUE)
     if(inherits(out, "try-error")) {
-        if(length(nms) == length(dnames(x)))
-            out <- structure(x, dnamesNames = nms)
+        if(length(ids) == length(dNames(x)))
+            out <- structure(x, dIds = ids)
         else
-            stop("unable to set names for dnames")
+            stop("unable to set names for dNames")
     }
     return(out)
 }
 
-## FIXME: maybe should use a different name??  dimnames already means
-## something.  this is especially problematic with data frames, which
-## use dimnames for rows and columns, even though in \pkg{subscript}
-## land this doesn't work really.
 
-dnamesNamesExtract <- function(x, dn) {
-    dnn <- attr(x, "dnamesNames")
+dIdsExtract <- function(x, dn) {
+    dnn <- attr(x, "dIds")
     if(!is.null(dnn)) names(dn) <- dnn
     return(dn)
 }
@@ -29,26 +28,31 @@ dnamesNamesExtract <- function(x, dn) {
 ##' @param x Dimensioned object
 ##' @return character vector with dimension names
 ##' @export
-dnames <- function(x) {
-    UseMethod("dnames")
+dNames <- function(x) {
+    UseMethod("dNames")
 }
 
-##' @S3method dnames default
+##' @S3method dNames default
 ##' @export
-dnames.default <- function(x) dimnames(x)
+dNames.default <- function(x) dimnames(x)
 
-##' @S3method dnames data.frame
+##' @S3method dNames data.frame
 ##' @export
-dnames.data.frame <- function(x) dnamesNamesExtract(x, list(rownames(x)))
+dNames.data.frame <- function(x) dIdsExtract(x, list(rownames(x)))
 
-##' @S3method dnames dist
+##' @S3method dNames dist
 ##' @export
-dnames.dist <- function(x) dnamesNamesExtract(x, list(attr(x, "Labels")))
+dNames.dist <- function(x) dIdsExtract(x, list(attr(x, "Labels")))
 
-##' @S3method dnames phylo
+##' @S3method dNames phylo
 ##' @export
-dnames.phylo <- function(x) dnamesNamesExtract(x, list(x$tip.label))
+dNames.phylo <- function(x) dIdsExtract(x, list(x$tip.label))
 
-##' @S3method dnames speciesList
+##' @S3method dNames speciesList
 ##' @export
-dnames.speciesList <- function(x) dnamesNamesExtract(x, list(names(x), unique(unlist(x))))
+dNames.speciesList <- function(x) dIdsExtract(x, list(names(x), unique(unlist(x))))
+
+##' @S3method dNames poly.data.frame
+##' @export
+dNames.poly.data.frame <- function(x) unique(dIdsConcat(x))
+

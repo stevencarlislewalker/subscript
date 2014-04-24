@@ -39,6 +39,10 @@
 ##' dNamesNested(pdf)
 ##' dNamesConcat(pdf)
 ##' dNames(pdf)
+##'
+##' ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
+##' ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
+##' ss(pdf, list(c("a","e","f"), c("D","C","A")))
 NULL
 
 ##' Subscript
@@ -97,12 +101,6 @@ subscript.dist <- function(x, i, ...){
 
                                         # convert subscript type to
                                         # numeric
-    ## i <- unlist(i)
-    ## mc <- match.call(expand.dots = FALSE)
-    ## mc[[1]] <- quote(subscript::conversion)
-    ## mc$nms <- dNames(x)[[1]]
-    ## mc$x <- NULL
-    ## i <- eval(mc, parent.frame(1L))
     i <- conversion(unlist(i), dNames(x)[[1]])
     
                                         # compute subscript
@@ -137,12 +135,6 @@ subscript.dist <- function(x, i, ...){
 ##' @export
 subscript.phylo <- function(x, i, ...){
                                         # convert to numeric
-    ## i <- unlist(i)
-    ## mc <- match.call(expand.dots = FALSE)
-    ## mc[[1]] <- quote(subscript::conversion)
-    ## mc$nms <- dNames(x)[[1]]
-    ## mc$x <- NULL
-    ## i <- eval(mc, parent.frame(1L))
     i <- conversion(unlist(i), dNames(x)[[1]])
 
                                         # compute subscript

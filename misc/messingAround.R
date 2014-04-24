@@ -1,7 +1,7 @@
 library(subscript)
 example("subscript-package")
 
-ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A","A")))
+
 
 
 

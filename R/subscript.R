@@ -69,7 +69,7 @@ subscript.default <- function(x, i, ...) {
 ##' @S3method subscript data.frame
 ##' @method subscript data.frame
 ##' @export
-subscript.data.frame <- function(x, i, ...) x[i, ]
+subscript.data.frame <- function(x, i, ...) x[unlist(i), , drop = FALSE]
 
 
 ##' Subscript a distance matrix
@@ -83,16 +83,18 @@ subscript.data.frame <- function(x, i, ...) x[i, ]
 ##' @return A subscripted \code{\link{dist}} object.
 ##' @export 
 ##' @method subscript dist
-subscript.dist <- function(x, i, ...){  
+subscript.dist <- function(x, i, ...){
 
                                         # convert subscript type to
                                         # numeric
-    mc <- match.call(expand.dots = FALSE)
-    mc[[1]] <- quote(subscript::conversion)
-    mc$nms <- dNames(x)[[1]]
-    mc$x <- NULL
-    i <- eval(mc)
-
+    ## i <- unlist(i)
+    ## mc <- match.call(expand.dots = FALSE)
+    ## mc[[1]] <- quote(subscript::conversion)
+    ## mc$nms <- dNames(x)[[1]]
+    ## mc$x <- NULL
+    ## i <- eval(mc, parent.frame(1L))
+    i <- conversion(unlist(i), dNames(x)[[1]])
+    
                                         # compute subscript
     n <- attr(x, 'Size') # size of matrix
     iRow <- rep(1:(n-1), (n-1):1) # row indices to keep
@@ -125,17 +127,26 @@ subscript.dist <- function(x, i, ...){
 ##' @export
 subscript.phylo <- function(x, i, ...){
                                         # convert to numeric
-    mc <- match.call(expand.dots = FALSE)
-    mc[[1]] <- quote(subscript::conversion)
-    mc$nms <- dNames(x)[[1]]
-    mc$x <- NULL
-    i <- eval(mc)
+    ## i <- unlist(i)
+    ## mc <- match.call(expand.dots = FALSE)
+    ## mc[[1]] <- quote(subscript::conversion)
+    ## mc$nms <- dNames(x)[[1]]
+    ## mc$x <- NULL
+    ## i <- eval(mc, parent.frame(1L))
+    i <- conversion(unlist(i), dNames(x)[[1]])
 
                                         # compute subscript
     inot <- setdiff(seq_len(Ntip(x)), i)
     drop.tip(x, inot)
 }
 
+##' Subscript a species list
+##'
+##' @param x \code{speciesList} object
+##' @param i Subscript list
+##' @return subscripted \code{specieslist}
+##' @S3method subscript speciesList
+##' @export
 subscript.speciesList <- function(x, i, ...){
     ## i[[1]] <- conversion(i[[1]], names(x))
     x <- x[i[[1]]]
@@ -143,3 +154,19 @@ subscript.speciesList <- function(x, i, ...){
     class(out) <- "speciesList"
     return(out)
 }
+
+##' Subscript a poly data frame
+##'
+##' @param x \code{poly.data.frame} object
+##' @param i subscript list
+##' @return subscripted \code{poly.data.frame}
+##' @S3method subscript poly.data.frame
+##' @export
+subscript.poly.data.frame <- function(x, i, ...){
+    if(is.null(names(i))) names(i) <- dIdsUnique(x)
+    ids <- dIdsNested(x)
+    for(j in seq_along(x)) x[[j]] <- subscript(x[[j]], i[ids[[j]]])
+    return(x)
+}
+
+

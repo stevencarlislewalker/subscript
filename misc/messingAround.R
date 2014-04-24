@@ -1,18 +1,33 @@
 library(subscript)
 example("subscript-package")
 
-dNamesNested(pdf)
-dNamesConcat(pdf)
+summary(pdf)
+
 dIdsNested(pdf)
 dIdsConcat(pdf)
+dIdsUnique(pdf)
+
+dNamesNested(pdf)
+dNamesConcat(pdf)
 dNames(pdf)
 
-(dnamesAll <- do.call(c, dNamesNested(pdf)))
-dimids <- unique(unlist(dIdsAll))
-outer(dIdsAll, dimids, "==")
-lapply(lapply(dimids, "==", dIdsAll), function(ii) unique(unlist(dnamesAll[ii])))
 
 
+ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
+
+
+
+
+
+
+
+mapply(fn, dIdsNested(pdf), dIdsUnique(pdf))
+
+fn <- function(x, y) any(x == y)
+outer(dIdsNested(pdf), as.list(dIdsUnique(pdf)), fn)
+
+lapply(dIdsNested(pdf), fn, dIdsUnique(pdf))
+dIdsUnique(pdf)[[1]] == dIdsNested(pdf)
 
 as.matrix(slist)
 ss(slist, list(c("b", "a"), c("D","A")))

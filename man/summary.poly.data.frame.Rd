@@ -1,0 +1,18 @@
+\name{summary.poly.data.frame}
+\alias{summary.poly.data.frame}
+\title{Summary of poly data frame}
+\usage{
+\method{summary}{poly.data.frame}(object, ...)
+}
+\arguments{
+  \item{object}{A \code{\link{poly.data.frame}} object.}
+
+  \item{...}{Not used.}
+}
+\value{
+Logical matrix indicating replication relationships.
+}
+\description{
+Summary of poly data frame
+}
+

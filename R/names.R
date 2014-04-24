@@ -54,5 +54,8 @@ dNames.speciesList <- function(x) dIdsExtract(x, list(names(x), unique(unlist(x)
 
 ##' @S3method dNames poly.data.frame
 ##' @export
-dNames.poly.data.frame <- function(x) unique(dIdsConcat(x))
-
+dNames.poly.data.frame <- function(x) {
+    summaryConcat <- sapply(dIdsUnique(pdf), "==", dIdsConcat(pdf))
+    fn <- function(i) unique(unlist(dNamesConcat(x)[i]))
+    apply(summaryConcat, 2, fn)
+}

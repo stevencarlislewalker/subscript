@@ -12,6 +12,22 @@ poly.data.frame <- function(...) {
     return(out)
 }
 
+##' Summary of poly data frame
+##'
+##' @param object A \code{\link{poly.data.frame}} object.
+##' @param ... Not used.
+##' @return Logical matrix indicating replication relationships.
+##' @S3method summary poly.data.frame
+##' @export
+summary.poly.data.frame <- function(object, ...){
+    dUnique <- dIdsUnique(pdf)
+    dNested <- dIdsNested(pdf)
+    out <- sapply(dNested, "==", dUnique)
+    rownames(out) <- dUnique
+    return(out)
+}
+
+
 ##' Utility functions for poly.data.frame
 ##'
 ##' @param x A \code{\link{poly.data.frame}} object
@@ -31,7 +47,9 @@ dIdsNested <- function(x) lapply(dNamesNested(x), names)
 ##' @export
 dIdsConcat <- function(x) do.call(c, lapply(dNamesNested(x), names))
 
-
+##' @rdname utility
+##' @export
+dIdsUnique <- function(x) unique(dIdsConcat(x))
 
 ##' Species list
 ##'
@@ -66,4 +84,11 @@ as.matrix.speciesList <- function(x, ...) {
     out <- unclass(as.table(x))
     attr(out, "call") <- NULL
     return(out)
+}
+
+##' @S3method print speciesList
+##' @export
+print.speciesList <- function(x, ...) {
+    print("species list with presence-absence pattern:")
+    as.table(x)
 }

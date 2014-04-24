@@ -13,6 +13,8 @@
 ##' sqr <- function(x) x^2
 ##' min10 <- function(x) x - 10
 ##' (sqr %f% min10)(2)
+##' div5 <- function(x) x/5
+##' (sqr %f% min10 %f% div5)(2)
 follows <- function(f, g) function(x, ...) f(g(x, ...))
 
 ##' @rdname follows

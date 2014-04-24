@@ -1,19 +1,7 @@
 library(subscript)
 example("subscript-package")
 
-summary(pdf)
-
-dIdsNested(pdf)
-dIdsConcat(pdf)
-dIdsUnique(pdf)
-
-dNamesNested(pdf)
-dNamesConcat(pdf)
-dNames(pdf)
-
-
-
-ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
+ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A","A")))
 
 
 

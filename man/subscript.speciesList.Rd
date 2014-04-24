@@ -8,6 +8,8 @@
   \item{x}{\code{speciesList} object}
 
   \item{i}{Subscript list}
+
+  \item{...}{Not used}
 }
 \value{
 subscripted \code{specieslist}

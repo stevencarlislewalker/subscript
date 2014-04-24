@@ -29,6 +29,16 @@
 ##'                        coph   = dIds(as.dist(cophenetic(tree)), "species"),
 ##'                        tree   = dIds(tree,        "species"),
 ##'                        slist  = dIds(slist,       c("sites", "species")))
+##'
+##' summary(pdf)
+##'
+##' dIdsNested(pdf)
+##' dIdsConcat(pdf)
+##' dIdsUnique(pdf)
+##'
+##' dNamesNested(pdf)
+##' dNamesConcat(pdf)
+##' dNames(pdf)
 NULL
 
 ##' Subscript
@@ -144,6 +154,7 @@ subscript.phylo <- function(x, i, ...){
 ##'
 ##' @param x \code{speciesList} object
 ##' @param i Subscript list
+##' @param ... Not used
 ##' @return subscripted \code{specieslist}
 ##' @S3method subscript speciesList
 ##' @export
@@ -159,12 +170,14 @@ subscript.speciesList <- function(x, i, ...){
 ##'
 ##' @param x \code{poly.data.frame} object
 ##' @param i subscript list
+##' @param ... Not used
 ##' @return subscripted \code{poly.data.frame}
 ##' @S3method subscript poly.data.frame
 ##' @export
 subscript.poly.data.frame <- function(x, i, ...){
     if(is.null(names(i))) names(i) <- dIdsUnique(x)
     ids <- dIdsNested(x)
+    i <- lapply(i, unique)
     for(j in seq_along(x)) x[[j]] <- subscript(x[[j]], i[ids[[j]]])
     return(x)
 }

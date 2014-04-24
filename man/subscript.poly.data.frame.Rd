@@ -8,6 +8,8 @@
   \item{x}{\code{poly.data.frame} object}
 
   \item{i}{subscript list}
+
+  \item{...}{Not used}
 }
 \value{
 subscripted \code{poly.data.frame}

@@ -32,5 +32,15 @@ pdf <- poly.data.frame(env    = dIds(env,         "sites"),
                        coph   = dIds(as.dist(cophenetic(tree)), "species"),
                        tree   = dIds(tree,        "species"),
                        slist  = dIds(slist,       c("sites", "species")))
+
+summary(pdf)
+
+dIdsNested(pdf)
+dIdsConcat(pdf)
+dIdsUnique(pdf)
+
+dNamesNested(pdf)
+dNamesConcat(pdf)
+dNames(pdf)
 }
 

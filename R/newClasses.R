@@ -89,6 +89,6 @@ as.matrix.speciesList <- function(x, ...) {
 ##' @S3method print speciesList
 ##' @export
 print.speciesList <- function(x, ...) {
-    print("species list with presence-absence pattern:")
-    as.table(x)
+    cat("\nspecies list with presence-absence pattern:\n\n")
+    print(as.table(x))
 }

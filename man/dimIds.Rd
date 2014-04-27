@@ -1,30 +1,21 @@
-\name{dimIds<-}
+\name{dimIds}
 \alias{dimIds}
 \alias{dimIds<-}
 \alias{setDimIds}
-\title{Set dimnames names}
+\title{Set and get dimnames names}
 \usage{
-dimIds(x) <- value
+dimIds(x)
 
 setDimIds(x, value)
 
-dimIds(x)
+dimIds(x) <- value
 }
 \arguments{
   \item{x}{An object}
 
   \item{value}{Identifiers for object dimensions}
-
-  \item{x}{An object}
-}
-\value{
-The object with dimension identifiers
-
-Names of the dimnames of \code{x}
 }
 \description{
-Set dimnames names
-
-Get dimnames names
+Set and get dimnames names
 }
 

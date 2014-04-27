@@ -25,19 +25,19 @@ tree <- chronos(compute.brlen(read.tree(text = newick)))
 slist <- speciesList(replicate(n, LETTERS[sample.int(m, sample.int(m, 1))]), letters[1:n])
 slist <- speciesList(slist)
 
-pdf <- poly.data.frame(env    = dIds(env,         "sites"),
-                       coord  = dIds(coord,       "sites"),
-                       geog   = dIds(dist(coord), "sites"),
-                       traits = dIds(traits,      "species"),
-                       coph   = dIds(as.dist(cophenetic(tree)), "species"),
-                       tree   = dIds(tree,        "species"),
-                       slist  = dIds(slist,       c("sites", "species")))
+pdf <- poly.data.frame(env    = setDimIds(env,         "sites"),
+                       coord  = setDimIds(coord,       "sites"),
+                       geog   = setDimIds(dist(coord), "sites"),
+                       traits = setDimIds(traits,      "species"),
+                       coph   = setDimIds(as.dist(cophenetic(tree)), "species"),
+                       tree   = setDimIds(tree,        "species"),
+                       slist  = setDimIds(slist,       c("sites", "species")))
 
 summary(pdf)
 
-dIdsNested(pdf)
-dIdsConcat(pdf)
-dIdsUnique(pdf)
+dimIdsNested(pdf)
+dimIdsConcat(pdf)
+dimIdsUnique(pdf)
 
 dNamesNested(pdf)
 dNamesConcat(pdf)

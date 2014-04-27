@@ -1,8 +1,20 @@
-##' Set dimnames names
+##' Set and get dimnames names
 ##'
 ##' @param x An object
 ##' @param value Identifiers for object dimensions
-##' @return The object with dimension identifiers
+##' @rdname dimIds
+##' @export
+dimIds <- function(x) names(dNames(x))
+
+
+##' @rdname dimIds
+##' @export
+setDimIds <- function(x, value) {
+    dimIds(x) <- value
+    return(x)
+}
+
+
 ##' @rdname dimIds
 ##' @export
 `dimIds<-` <- function(x, value) {
@@ -16,22 +28,6 @@
     }
     return(out)
 }
-
-##' @rdname dimIds
-##' @export
-setDimIds <- function(x, value) {
-    dimIds(x) <- value
-    return(x)
-}
-
-##' Get dimnames names
-##'
-##' @param x An object
-##' @return Names of the dimnames of \code{x}
-##' @rdname dimIds
-##' @export
-dimIds <- function(x) names(dimnames(x))
-
 
 
 dimIdsExtract <- function(x, dn) {

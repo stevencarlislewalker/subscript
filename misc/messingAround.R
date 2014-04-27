@@ -1,12 +1,12 @@
 example("subscript-package", package = "subscript")
 
 
-pdf <- poly.data.frame(env    = dIds(env,         "sites"),
-                       coord  = dIds(coord,       "sites"),
-                       geog   = dIds(dist(coord), "sites"),
-                       traits = dIds(traits,      "species"),
-                       coph   = dIds(as.dist(cophenetic(tree)), "species"),
-                       tree   = dIds(tree,        "species"))
+pdf <- poly.data.frame(env    = setDimIds(env,         "sites"),
+                       coord  = setDimIds(coord,       "sites"),
+                       geog   = setDimIds(dist(coord), "sites"),
+                       traits = setDimIds(traits,      "species"),
+                       coph   = setDimIds(as.dist(cophenetic(tree)), "species"),
+                       tree   = setDimIds(tree,        "species"))
  crossprod(summary(pdf))
 tcrossprod(summary(pdf))
 
@@ -21,13 +21,14 @@ FPDist <- function(formula, data, a, p = 2) {
     FPDistOut <- ( (a * (FDist^p)) +
                   ((1-a) * (PDist^p)) )^(1/p)
 
-    dIds(FPDistOut, )
+    dimIds(FPDistOut) <- dimIds(FDist)
+    return(FPDistOut)
 }
 dNames(FPDist(form, pdf, 0.5))
 
 
 dNames(pdf)
 
-
+dist(pdf$traits)
 
 

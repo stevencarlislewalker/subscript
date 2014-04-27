@@ -1,24 +1,41 @@
 ##' Set dimnames names
 ##'
 ##' @param x An object
-##' @param ids Identifiers for object dimensions
+##' @param value Identifiers for object dimensions
 ##' @return The object with dimension identifiers
+##' @rdname dimIds
 ##' @export
-dIds <- function(x, ids) {
-    if(is.data.frame(x)) return(structure(x, dIds = ids))
-    out <- try(names(dimnames(x)) <- ids, silent = TRUE)
+`dimIds<-` <- function(x, value) {
+    if(is.data.frame(x)) return(structure(x, dimIds = value))
+    out <- try(names(dimnames(x)) <- value, silent = TRUE)
     if(inherits(out, "try-error")) {
-        if(length(ids) == length(dNames(x)))
-            out <- structure(x, dIds = ids)
+        if(length(value) == length(dNames(x)))
+            out <- structure(x, dimIds = value)
         else
             stop("unable to set names for dNames")
     }
     return(out)
 }
 
+##' @rdname dimIds
+##' @export
+setDimIds <- function(x, value) {
+    dimIds(x) <- value
+    return(x)
+}
 
-dIdsExtract <- function(x, dn) {
-    dnn <- attr(x, "dIds")
+##' Get dimnames names
+##'
+##' @param x An object
+##' @return Names of the dimnames of \code{x}
+##' @rdname dimIds
+##' @export
+dimIds <- function(x) names(dimnames(x))
+
+
+
+dimIdsExtract <- function(x, dn) {
+    dnn <- attr(x, "dimIds")
     if(!is.null(dnn)) names(dn) <- dnn
     return(dn)
 }
@@ -41,26 +58,26 @@ dNames.default <- function(x) {
 
 ##' @S3method dNames data.frame
 ##' @export
-dNames.data.frame <- function(x) dIdsExtract(x, list(rownames(x)))
+dNames.data.frame <- function(x) dimIdsExtract(x, list(rownames(x)))
 
 ##' @S3method dNames dist
 ##' @export
-dNames.dist <- function(x) dIdsExtract(x, list(attr(x, "Labels")))
+dNames.dist <- function(x) dimIdsExtract(x, list(attr(x, "Labels")))
 
 ##' @S3method dNames phylo
 ##' @export
-dNames.phylo <- function(x) dIdsExtract(x, list(x$tip.label))
+dNames.phylo <- function(x) dimIdsExtract(x, list(x$tip.label))
 
 ##' @S3method dNames speciesList
 ##' @export
-dNames.speciesList <- function(x) dIdsExtract(x,
+dNames.speciesList <- function(x) dimIdsExtract(x,
                                               list(names(x),
                                                    (unique %f% unlist)(x)))
 
 ##' @S3method dNames poly.data.frame
 ##' @export
 dNames.poly.data.frame <- function(x) {
-    apply(sapply(dIdsUnique(pdf), "==", dIdsConcat(pdf)),
+    apply(sapply(dimIdsUnique(pdf), "==", dimIdsConcat(pdf)),
           2,
           unique %f% unlist %f% `[`,
           x = dNamesConcat(x))

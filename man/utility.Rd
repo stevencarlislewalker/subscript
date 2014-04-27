@@ -1,20 +1,20 @@
 \name{dNamesNested}
-\alias{dIdsConcat}
-\alias{dIdsNested}
-\alias{dIdsUnique}
 \alias{dNamesConcat}
 \alias{dNamesNested}
+\alias{dimIdsConcat}
+\alias{dimIdsNested}
+\alias{dimIdsUnique}
 \title{Utility functions for poly.data.frame}
 \usage{
 dNamesNested(x)
 
 dNamesConcat(x)
 
-dIdsNested(x)
+dimIdsNested(x)
 
-dIdsConcat(x)
+dimIdsConcat(x)
 
-dIdsUnique(x)
+dimIdsUnique(x)
 }
 \arguments{
   \item{x}{A \code{\link{poly.data.frame}} object}

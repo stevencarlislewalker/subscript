@@ -8,9 +8,9 @@
 poly.data.frame <- function(...) {
 
     out <- list(...)
-    if(any(!sapply(dIdsNested(out), length)))
-        stop("\nall objects must have dIds (dimension identifiers)\n",
-             "which can be set using the dIds function")
+    if(any(!sapply(dimIdsNested(out), length)))
+        stop("\nall objects must have dimIds (dimension identifiers)\n",
+             "which can be set using the dimIds function")
     class(out) <- "poly.data.frame"
     return(out)
 }
@@ -24,8 +24,8 @@ poly.data.frame <- function(...) {
 ##' @S3method summary poly.data.frame
 ##' @export
 summary.poly.data.frame <- function(object, ...){
-    dUnique <- dIdsUnique(pdf)
-    dNested <- dIdsNested(pdf)
+    dUnique <- dimIdsUnique(pdf)
+    dNested <- dimIdsNested(pdf)
     out <- sapply(dNested, "==", dUnique)
     rownames(out) <- dUnique
     return(out)
@@ -45,15 +45,15 @@ dNamesConcat <- function(x) do.call(c, dNamesNested(x))
 
 ##' @rdname utility
 ##' @export
-dIdsNested <- function(x) lapply(dNamesNested(x), names)
+dimIdsNested <- function(x) lapply(dNamesNested(x), names)
 
 ##' @rdname utility
 ##' @export
-dIdsConcat <- function(x) do.call(c, lapply(dNamesNested(x), names))
+dimIdsConcat <- function(x) do.call(c, lapply(dNamesNested(x), names))
 
 ##' @rdname utility
 ##' @export
-dIdsUnique <- function(x) unique(dIdsConcat(x))
+dimIdsUnique <- function(x) unique(dimIdsConcat(x))
 
 
 

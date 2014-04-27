@@ -167,8 +167,8 @@ subscript.speciesList <- function(x, i, ...){
 ##' @S3method subscript poly.data.frame
 ##' @export
 subscript.poly.data.frame <- function(x, i, ...){
-    if(is.null(names(i))) names(i) <- dIdsUnique(x)
-    ids <- dIdsNested(x)
+    if(is.null(names(i))) names(i) <- dimIdsUnique(x)
+    ids <- dimIdsNested(x)
     i <- lapply(i, unique)
     for(j in seq_along(x)) x[[j]] <- subscript(x[[j]], i[ids[[j]]])
     return(x)

@@ -46,5 +46,8 @@ dNames(pdf)
 ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
 ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
 ss(pdf, list(c("a","e","f"), c("D","C","A")))
+
+form <- ~ dist(traits) + as.dist(cophenetic(tree))
+FPDist(form, pdf, 0)
 }
 

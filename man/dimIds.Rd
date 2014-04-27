@@ -6,9 +6,9 @@
 \usage{
 dimIds(x)
 
-setDimIds(x, value)
-
 dimIds(x) <- value
+
+setDimIds(x, value)
 }
 \arguments{
   \item{x}{An object}

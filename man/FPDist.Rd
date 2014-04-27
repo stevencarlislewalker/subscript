@@ -1,0 +1,25 @@
+\name{FPDist}
+\alias{FPDist}
+\title{Functional phylogenetic distance matrix}
+\usage{
+FPDist(formula, data, a, p = 2)
+}
+\arguments{
+  \item{formula}{One-sided \code{\link{formula}} object
+  giving `+`-separated expressions for the functional and
+  phylogenetic distance matrices}
+
+  \item{data}{A \code{\link{poly.data.frame}} object within
+  which to evaluate \code{formula}}
+
+  \item{a}{Phylogenetic weighting parameter}
+
+  \item{p}{Metric exponent (\code{p = 2} for Euclidean)}
+}
+\value{
+functional phylogenetic distance matrix
+}
+\description{
+Functional phylogenetic distance matrix
+}
+

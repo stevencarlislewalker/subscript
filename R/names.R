@@ -9,14 +9,6 @@ dimIds <- function(x) names(dNames(x))
 
 ##' @rdname dimIds
 ##' @export
-setDimIds <- function(x, value) {
-    dimIds(x) <- value
-    return(x)
-}
-
-
-##' @rdname dimIds
-##' @export
 `dimIds<-` <- function(x, value) {
     if(is.data.frame(x)) return(structure(x, dimIds = value))
     out <- try(names(dimnames(x)) <- value, silent = TRUE)
@@ -28,6 +20,15 @@ setDimIds <- function(x, value) {
     }
     return(out)
 }
+
+
+##' @rdname dimIds
+##' @export
+setDimIds <- function(x, value) {
+    dimIds(x) <- value
+    return(x)
+}
+
 
 
 dimIdsExtract <- function(x, dn) {

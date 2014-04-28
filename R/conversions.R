@@ -33,7 +33,7 @@ conversion.character <- function(i, nms, ...){
 ##' @export
 ##' @method conversion logical
 conversion.logical <- function(i, nms, ...){
-    stop("not finished")
+    which(i)
 }
 
 ##' @rdname conversion

@@ -1,6 +1,8 @@
 example("subscript-package", package = "subscript")
 
 
+
+
 regs <- dbDiversityRegression(slist,                         # species list
                               as.dist(cophenetic(pdf$tree)), # phylogenetic distances
                               dist(pdf$traits),              # functional distances

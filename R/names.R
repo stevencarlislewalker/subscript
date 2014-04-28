@@ -27,10 +27,14 @@ dimIds <- function(x) names(dNames(x))
     if(is.data.frame(x)) return(structure(x, dimIds = value))
     out <- try(names(dimnames(x)) <- value, silent = TRUE)
     if(inherits(out, "try-error")) {
-        if(length(value) == length(dNames(x)))
+        if(length(value) == length(dNames(x))) {
             out <- structure(x, dimIds = value)
-        else
+        }
+        else {
             stop("unable to set names for dNames")
+        }
+    } else {
+        out <- x
     }
     return(out)
 }
@@ -89,7 +93,8 @@ dNames <- function(x) {
 
 ##' @export
 dNames.default <- function(x) {
-    if(is.null(dn <- dimnames(x))) return(names(x))
+    if(is.null(dn <- dimnames(x)))
+        return(dimIdsExtract(x, list(names(x))))
     return(dn)
 }
 

@@ -63,5 +63,16 @@ summary(pdf2)
 dNames(pdf2)
 
 meanPairwiseDist(slist, FPDist)
+
+regs <- dbDiversityRegression(slist,                         # species list
+                              as.dist(cophenetic(pdf$tree)), # phylogenetic distances
+                              dist(pdf$traits),              # functional distances
+                              setNames(env$x, rownames(env)) # ecosystem function
+                              )
+
+mean(regs)
+coef(regs)
+a.hpd(regs)
+plot(regs)
 }
 

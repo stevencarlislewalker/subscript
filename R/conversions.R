@@ -25,6 +25,7 @@ conversion.default <- function(i, nms, ...) {
 ##' @export
 ##' @method conversion character
 conversion.character <- function(i, nms, ...){
+    if(!all(i %in% nms)) stop("subscript out of range")
     match(i, nms)
 }
 

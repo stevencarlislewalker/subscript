@@ -59,7 +59,19 @@
 ##' dNames(pdf2)
 ##'
 ##' meanPairwiseDist(slist, FPDist)
+##'
+##' regs <- dbDiversityRegression(slist,                         # species list
+##'                               as.dist(cophenetic(pdf$tree)), # phylogenetic distances
+##'                               dist(pdf$traits),              # functional distances
+##'                               setNames(env$x, rownames(env)) # ecosystem function
+##'                               )
+##' 
+##' mean(regs)
+##' coef(regs)
+##' a.hpd(regs)
+##' plot(regs)
 NULL
+
 
 ##' Subscript
 ##' 
@@ -111,6 +123,7 @@ subscript.data.frame <- function(x, i, ...) x[unlist(i), , drop = FALSE]
 ##' @export 
 ##' @method subscript dist
 subscript.dist <- function(x, i, ...){
+
 
                                         # convert subscript type to
                                         # numeric

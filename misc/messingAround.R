@@ -1,6 +1,18 @@
 example("subscript-package", package = "subscript")
 
 
+regs <- dbDiversityRegression(slist,                         # species list
+                              as.dist(cophenetic(pdf$tree)), # phylogenetic distances
+                              dist(pdf$traits),              # functional distances
+                              setNames(env$x, rownames(env)) # ecosystem function
+                              )
+
+mean(regs)
+coef(regs)
+a.hpd(regs)
+plot(regs)
+
+
 
 
 pdf <- poly.data.frame(env    = setDimIds(env,         "sites"),
@@ -14,9 +26,9 @@ tcrossprod(summary(pdf))
 
 
 FPDist(form, pdf, 0)
-as.dist(cophenetic(pdf$tree))
+
 FPDist(form, pdf, 1)
-dist(pdf$traits)
+
 
 
 setDimIds(dist(pdf$traits), dimIds(pdf$traits))

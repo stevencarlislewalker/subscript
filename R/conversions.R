@@ -11,6 +11,7 @@ conversion <- function(i, nms, ...) UseMethod('conversion')
 ##' @export
 ##' @method conversion default
 conversion.default <- function(i, nms, ...) {
+
     if(!is.recursive(i)) return(i)
                                         # FIXME: testing for
                                         # complementary i and

@@ -3,7 +3,7 @@
 \alias{dimIds}
 \alias{dimIds<-}
 \alias{setDimIds}
-\title{Set and get dimnames names}
+\title{Set and get dimension identifiers}
 \usage{
 dimIds(x)
 
@@ -17,6 +17,19 @@ setDimIds(x, value)
 \item{value}{Identifiers for object dimensions}
 }
 \description{
-Set and get dimnames names
+Dimension identifiers (\code{dimIds}) allow combining objects into
+\code{\link{poly.data.frame}} objects, which are related along the
+dimensions of each of their consitituent objects.  In order to
+make use of these relationships, the dimensions of each object
+must be identified, which is accomplished by \code{dimIds}.
+}
+\details{
+\code{dimIds} are stored in two different ways:
+\itemize{
+\item For \code{data.frame} objects and everything else
+without \code{dimnames}, \code{dimIds} are stored as an attribute.
+\item For any object with \code{dimnames} except \code{data.frame}s,
+\code{dimIds} are stored as the names of the list of \code{dimnames}.
+}
 }
 

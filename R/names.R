@@ -1,4 +1,18 @@
-##' Set and get dimnames names
+##' Set and get dimension identifiers
+##'
+##' Dimension identifiers (\code{dimIds}) allow combining objects into
+##' \code{\link{poly.data.frame}} objects, which are related along the
+##' dimensions of each of their consitituent objects.  In order to
+##' make use of these relationships, the dimensions of each object
+##' must be identified, which is accomplished by \code{dimIds}.
+##' 
+##' \code{dimIds} are stored in two different ways:
+##' \itemize{
+##' \item For \code{data.frame} objects and everything else
+##' without \code{dimnames}, \code{dimIds} are stored as an attribute.
+##' \item For any object with \code{dimnames} except \code{data.frame}s,
+##' \code{dimIds} are stored as the names of the list of \code{dimnames}.
+##' }
 ##'
 ##' @param x An object
 ##' @param value Identifiers for object dimensions
@@ -99,9 +113,28 @@ dNames.speciesList <- function(x) dimIdsExtract(x,
 
 ##' @export
 dNames.poly.data.frame <- function(x) {
-    apply(sapply(dimIdsUnique(x), "==", dimIdsConcat(x)),
-          2,
-          unique %f% unlist %f% `[`,
-          x = dNamesConcat(x))
+                                        # the matrix being applied
+                                        # here is a digraph matrix
+                                        # relating all dimensions to
+                                        # the dimIds
+    out <- apply(sapply(dimIdsUnique(x), "==", dimIdsConcat(x)),
+
+                                        # use this logical matrix to
+                                        # pick out dimensions
+                                        # associated with each dimIds,
+                                        # and find the unique dNames
+                 2,
+                 unique %f% unlist %f% `[`,
+                 x = dNamesConcat(x))
+
+                                        # don't let dNames come out as
+                                        # a matrix, because the
+                                        # structure is artificial
+    if(inherits(out, "matrix")) {
+        out <- unclass(as.data.frame(out, stringsAsFactors = FALSE))
+        attr(out, "row.names") <- NULL
+    }
+
+    return(out)
 }
 

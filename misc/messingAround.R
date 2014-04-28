@@ -64,10 +64,12 @@ summary(pdf2)
 
 dNames(pdf)
 dNames(pdf2)
+dNames(pdf00)
 
 pdf00 <- ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
 
 ii <- list(sites = c("a","e","f"), species = c("D","C","A"))
 attributes(pdf$slist)
 attributes(ss(pdf$slist, ii))
+
 

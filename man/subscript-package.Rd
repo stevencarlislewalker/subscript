@@ -48,8 +48,8 @@ ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
 ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
 ss(pdf, list(c("a","e","f"), c("D","C","A")))
 
-form <- ~ dist(traits) + as.dist(cophenetic(tree))
-FPDist(form, pdf, 0.5)
+(FPDist <- combineDists(as.dist(cophenetic(tree)),
+                        dist(traits), 0.5))
 
 l <- list(env    = env,
           coord  = coord,
@@ -61,5 +61,7 @@ l <- list(env    = env,
 pdf2 <- as.poly.data.frame(l, 2)
 summary(pdf2)
 dNames(pdf2)
+
+meanPairwiseDist(slist, FPDist)
 }
 

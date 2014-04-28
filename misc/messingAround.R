@@ -1,6 +1,8 @@
 example("subscript-package", package = "subscript")
 
 
+
+
 pdf <- poly.data.frame(env    = setDimIds(env,         "sites"),
                        coord  = setDimIds(coord,       "sites"),
                        geog   = setDimIds(dist(coord), "sites"),

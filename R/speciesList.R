@@ -12,7 +12,6 @@ speciesList <- function(x, nms, ...) {
     return(x)
 }
 
-##' @S3method as.data.frame speciesList
 ##' @export
 as.data.frame.speciesList <- function(x, ...) {
     lens <- sapply(x, length)
@@ -20,12 +19,12 @@ as.data.frame.speciesList <- function(x, ...) {
                species = unlist(x))
 }
 
-##' @S3method as.table speciesList
+
 ##' @export
 as.table.speciesList <- function(x, ...)
     xtabs( ~ sites + species, as.data.frame(x))
 
-##' @S3method as.matrix speciesList
+
 ##' @export
 as.matrix.speciesList <- function(x, ...) {
     out <- unclass(as.table(x))
@@ -33,7 +32,7 @@ as.matrix.speciesList <- function(x, ...) {
     return(out)
 }
 
-##' @S3method print speciesList
+
 ##' @export
 print.speciesList <- function(x, ...) {
     cat("\nspecies list with presence-absence pattern:\n\n")

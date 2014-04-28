@@ -45,7 +45,18 @@
 ##' ss(pdf, list(c("a","e","f"), c("D","C","A")))
 ##'
 ##' form <- ~ dist(traits) + as.dist(cophenetic(tree))
-##' FPDist(form, pdf, 0)
+##' FPDist(form, pdf, 0.5)
+##'
+##' l <- list(env    = env,
+##'           coord  = coord,
+##'           geog   = dist(coord),
+##'           traits = traits,
+##'           coph   = as.dist(cophenetic(tree)),
+##'           tree   = tree,
+##'           comm   = slist)
+##' pdf2 <- as.poly.data.frame(l, 2)
+##' summary(pdf2)
+##' dNames(pdf2)
 NULL
 
 ##' Subscript
@@ -68,7 +79,6 @@ subscript <- function(x, i, ...) {
 ss <- function(x, i, ...) subscript(x, i, ...)
 
 ##' @rdname subscript
-##' @S3method subscript default
 ##' @method subscript default
 subscript.default <- function(x, i, ...) {
     if(!is.recursive(i)) i <- list(i)
@@ -83,7 +93,6 @@ subscript.default <- function(x, i, ...) {
 ##' @param i Indices for the rows.
 ##' @param ... Not used.
 ##' @return A subscripted data frame
-##' @S3method subscript data.frame
 ##' @method subscript data.frame
 ##' @export
 subscript.data.frame <- function(x, i, ...) x[unlist(i), , drop = FALSE]
@@ -96,7 +105,6 @@ subscript.data.frame <- function(x, i, ...) x[unlist(i), , drop = FALSE]
 ##' @param x A \code{\link{dist}} object.
 ##' @param i Indices for the objects.
 ##' @param ... Not used.
-##' @S3method subscript dist
 ##' @return A subscripted \code{\link{dist}} object.
 ##' @export 
 ##' @method subscript dist
@@ -133,7 +141,6 @@ subscript.dist <- function(x, i, ...){
 ##' @param i Indices for the tips.
 ##' @param ... Not used.
 ##' @return A phylogenetic tree.
-##' @S3method subscript phylo
 ##' @method subscript phylo
 ##' @export
 subscript.phylo <- function(x, i, ...){
@@ -151,12 +158,13 @@ subscript.phylo <- function(x, i, ...){
 ##' @param i Subscript list
 ##' @param ... Not used
 ##' @return subscripted \code{specieslist}
-##' @S3method subscript speciesList
 ##' @export
 subscript.speciesList <- function(x, i, ...){
     ## i[[1]] <- conversion(i[[1]], names(x))
+    ids <- attr(x, "dimIds")
     x <- x[i[[1]]]
     out <- lapply(x, intersect, i[[2]])
+    attr(out, "dimIds") <- ids
     class(out) <- "speciesList"
     return(out)
 }
@@ -167,7 +175,6 @@ subscript.speciesList <- function(x, i, ...){
 ##' @param i subscript list
 ##' @param ... Not used
 ##' @return subscripted \code{poly.data.frame}
-##' @S3method subscript poly.data.frame
 ##' @export
 subscript.poly.data.frame <- function(x, i, ...){
     if(is.null(names(i))) names(i) <- dimIdsUnique(x)

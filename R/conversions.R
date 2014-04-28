@@ -8,7 +8,7 @@
 conversion <- function(i, nms, ...) UseMethod('conversion')
 
 ##' @rdname conversion
-##' @S3method conversion default
+##' @export
 ##' @method conversion default
 conversion.default <- function(i, nms, ...) {
     if(!is.recursive(i)) return(i)
@@ -21,21 +21,21 @@ conversion.default <- function(i, nms, ...) {
 
 ##' @param nms list of dNames
 ##' @rdname conversion
-##' @S3method conversion character
+##' @export
 ##' @method conversion character
 conversion.character <- function(i, nms, ...){
     match(i, nms)
 }
 
 ##' @rdname conversion
-##' @S3method conversion logical
+##' @export
 ##' @method conversion logical
 conversion.logical <- function(i, nms, ...){
     stop("not finished")
 }
 
 ##' @rdname conversion
-##' @S3method conversion matrix
+##' @export
 ##' @method conversion matrix
 conversion.matrix <- function(i, nms, ...){
     stop("not finished")

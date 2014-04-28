@@ -29,6 +29,33 @@ setDimIds <- function(x, value) {
     return(x)
 }
 
+##' Estimate and set dimnames names
+##'
+##' Uses \code{\link{kmeans}} clustering on the first axis of a
+##' correspondence analysis (\code{\link{corresp}}) of the union of
+##' all dimnames against variables
+##' 
+##' @param x A \code{\link{list}} object
+##' @param nDims Number of dimensions into which variables are to be
+##' clustered
+##' @return \code{x} with \code{\link{dimIds}}
+##' @importFrom MASS corresp
+##' @export
+calcDimIds <- function(x, nDims) {
+    ## if (!require(MASS))
+    ##     stop("MASS package is required")
+    dnc <- dNamesConcat(x)
+    xTable <- as.table(speciesList(dnc))
+    ca <- corresp(xTable)
+    seriate <- xTable[order(ca$rscore), order(ca$cscore)]
+    clusts <- kmeans(ca$rscore, nDims)$cluster[names(dnc)]
+    ids <- setNames(paste("D", clusts, sep = ""), names(clusts))
+    nDimsPerVariable <- rep(names(x), sapply(dNamesNested(x), length))
+    idList <- tapply(ids, nDimsPerVariable, unname)[names(x)]
+    mapply(setDimIds, x, idList)
+}
+
+
 
 
 dimIdsExtract <- function(x, dn) {
@@ -46,36 +73,35 @@ dNames <- function(x) {
     UseMethod("dNames")
 }
 
-##' @S3method dNames default
 ##' @export
 dNames.default <- function(x) {
     if(is.null(dn <- dimnames(x))) return(names(x))
     return(dn)
 }
 
-##' @S3method dNames data.frame
 ##' @export
 dNames.data.frame <- function(x) dimIdsExtract(x, list(rownames(x)))
 
-##' @S3method dNames dist
+
 ##' @export
 dNames.dist <- function(x) dimIdsExtract(x, list(attr(x, "Labels")))
 
-##' @S3method dNames phylo
+
 ##' @export
 dNames.phylo <- function(x) dimIdsExtract(x, list(x$tip.label))
 
-##' @S3method dNames speciesList
+
 ##' @export
 dNames.speciesList <- function(x) dimIdsExtract(x,
-                                              list(names(x),
-                                                   (unique %f% unlist)(x)))
+                                                list(names(x),
+                                                     (unique %f% unlist)(x)))
 
-##' @S3method dNames poly.data.frame
+
 ##' @export
 dNames.poly.data.frame <- function(x) {
-    apply(sapply(dimIdsUnique(pdf), "==", dimIdsConcat(pdf)),
+    apply(sapply(dimIdsUnique(x), "==", dimIdsConcat(x)),
           2,
           unique %f% unlist %f% `[`,
           x = dNamesConcat(x))
 }
+

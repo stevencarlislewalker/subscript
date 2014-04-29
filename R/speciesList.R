@@ -16,7 +16,7 @@ speciesList <- function(x, nms, ...) {
 as.data.frame.speciesList <- function(x, ...) {
     lens <- sapply(x, length)
     data.frame(sites = rep(names(x), lens),
-               species = unlist(x))
+               species = unlist(x, use.names = FALSE))
 }
 
 

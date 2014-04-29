@@ -8,8 +8,8 @@
 ##' @return combined distance matrix
 ##' @export
 combineDists <- function(dist1, dist2, a, p = 2) {
-    if(!identical(sort(unlist(dNames(dist1))),
-                  sort(unlist(dNames(dist2)))))
+    if(!identical(sort(unlist(dNames(dist1), use.names = FALSE)),
+                  sort(unlist(dNames(dist2), use.names = FALSE))))
         stop("incompatible distance matrices")
     dist2 <- ss(dist2, dNames(dist1))
     distOut <- ( (a * (dist1^p)) +

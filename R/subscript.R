@@ -109,7 +109,7 @@ subscript.default <- function(x, i, ...) {
 ##' @return A subscripted data frame
 ##' @method subscript data.frame
 ##' @export
-subscript.data.frame <- function(x, i, ...) x[unlist(i), , drop = FALSE]
+subscript.data.frame <- function(x, i, ...) x[unlist(i, use.names = FALSE), , drop = FALSE]
 
 
 ##' Subscript a distance matrix
@@ -127,7 +127,7 @@ subscript.dist <- function(x, i, ...){
 
                                         # convert subscript type to
                                         # numeric
-    i <- conversion(unlist(i), dNames(x)[[1]])
+    i <- conversion(unlist(i, use.names = FALSE), dNames(x)[[1]])
     
                                         # compute subscript
     n <- attr(x, 'Size') # size of matrix
@@ -160,7 +160,7 @@ subscript.dist <- function(x, i, ...){
 ##' @export
 subscript.phylo <- function(x, i, ...){
                                         # convert to numeric
-    i <- conversion(unlist(i), dNames(x)[[1]])
+    i <- conversion(unlist(i, use.names = FALSE), dNames(x)[[1]])
 
                                         # compute subscript
     inot <- setdiff(seq_len(Ntip(x)), i)

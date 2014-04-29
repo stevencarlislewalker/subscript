@@ -44,10 +44,16 @@ as.poly.data.frame.default <- function(x, nDims) {
 ##' @return Logical matrix indicating replication relationships.
 ##' @export
 summary.poly.data.frame <- function(object, ...){
-    dUnique <- dimIdsUnique(object)
-    dNested <- dimIdsNested(object)
-    out <- sapply(dNested, "==", dUnique)
-    rownames(out) <- dUnique
+    ## dUnique <- dimIdsUnique(object)
+    ## dNested <- dimIdsNested(object)
+    ## out <- sapply(dNested, "==", dUnique)
+    ## rownames(out) <- dUnique
+                                        # sorting is required to
+                                        # eliminate order problem
+    dimIdsList <- lapply(lapply(object, dimIds), sort)
+    dimIdsVect <- sort(dimIds(object))
+    out <- sapply(dimIdsList, "==", dimIdsVect)
+    rownames(out) <- dimIdsVect
     return(out)
 }
 

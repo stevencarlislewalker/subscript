@@ -184,6 +184,27 @@ subscript.speciesList <- function(x, i, ...){
     return(out)
 }
 
+
+##' Subscript a distance data frame
+##'
+##' @param x \code{dist.data.frame} object
+##' @param i subscript list
+##' @param ... Not used
+##' @return subscripted \code{dist.data.frame} object
+##' @export
+subscript.dist.data.frame <- function(x, i, ...){
+
+                                        # convert subscript type to
+                                        # numeric
+    nms <- dNames(x)[[1]]
+    i <- conversion(unlist(i, use.names = FALSE), nms)
+                                        # convert back, FIXME!
+    i <- nms[i]
+
+    return(x[(x$row %in% i) & (x$col %in% i), ])
+}
+
+
 ##' Subscript a poly data frame
 ##'
 ##' @param x \code{poly.data.frame} object

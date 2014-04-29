@@ -117,6 +117,10 @@ dNames.speciesList <- function(x) dimIdsExtract(x,
 
 
 ##' @export
+dNames.dist.data.frame <- function(x) dimIdsExtract(x, list(union(x$row, x$col)))
+
+
+##' @export
 dNames.poly.data.frame <- function(x) {
                                         # the matrix being applied
                                         # here is a digraph matrix

@@ -3,6 +3,8 @@ example("subscript-package", package = "subscript")
 
 
 
+
+
 regs <- dbDiversityRegression(slist,                         # species list
                               as.dist(cophenetic(pdf$tree)), # phylogenetic distances
                               dist(pdf$traits),              # functional distances
@@ -88,4 +90,19 @@ ii <- list(sites = c("a","e","f"), species = c("D","C","A"))
 attributes(pdf$slist)
 attributes(ss(pdf$slist, ii))
 
+with(pdf, coph)
+
+pdf <- within(pdf, coph <- coph/max(coph))
+pdf <- within(pdf, {
+    fdist <- dist(traits)/max(dist(traits))
+    dimIds(fdist) <- dimIds(traits)
+})
+with(pdf, plot(coph, ss(fdist, dNames(coph))))
+
+pdf <- within(pdf, {
+    fpdist <- combineDists(coph, fdist, 0.5)
+    dimIds(fpdist) <- "species"
+})
+
+with(pdf, meanPairwiseDist(slist, fpdist))
 

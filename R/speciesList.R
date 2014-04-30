@@ -68,7 +68,10 @@ as.speciesList.default <- function(x) stop("not yet writen")
 ##' @export
 as.speciesList.matrix <- function(x) {
     xLogical <- lapply(as.data.frame(t(x)), as.logical)
-    out <- lapply(xLogical, ss, x = colnames(x))
+    ## out <- lapply(xLogical, "[", x = colnames(x))
+    cn <- colnames(x)
+    out <- list()
+    for(i in names(xLogical)) out[[i]] <- cn[xLogical[[i]]]
     class(out) <- "speciesList"
     return(out)
 }

@@ -117,7 +117,7 @@ dNames.speciesList <- function(x) dimIdsExtract(x,
 
 
 ##' @export
-dNames.dist.data.frame <- function(x) dimIdsExtract(x, list(union(x$row, x$col)))
+dNames.longDist <- function(x) dimIdsExtract(x, list(union(x$row, x$col)))
 
 
 ##' @export
@@ -146,4 +146,12 @@ dNames.poly.data.frame <- function(x) {
 
     return(out)
 }
+
+
+##' Number of dimensions
+##'
+##' @param x an object
+##' @return number of dimensions in \code{x}
+##' @export
+nDims <- function(x) length(dNames(x))
 

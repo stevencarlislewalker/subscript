@@ -21,6 +21,9 @@ as.longDist.default <- function(x, ...) {
 }
 
 ##' @export
+as.longDist.longDist <- function(x, ...) x
+
+##' @export
 as.longDist.dist <- function(x, ...) {
     n <- attr(x, 'Size') # size of matrix
     nms <- dNames(x)[[1]]
@@ -35,8 +38,7 @@ as.longDist.dist <- function(x, ...) {
 
 ##' @export
 as.longDist.matrix <- function(x, ...) {
-    if(nrow(x) != ncol(x)) stop("only square matrices can be converted to dist")
-    # FIXME: more testing
+    if(!isSymmetric(x)) stop("only symmetric matrices can be converted to dist")
     as.longDist(as.dist(x))
 }
 
@@ -52,3 +54,31 @@ as.dist.longDist <- function(m, diag = FALSE, upper = FALSE) {
     stop("not done")
     nms <- dNames(m)[[1]]
 }
+
+
+##' @importFrom stats reorder
+##' @export
+reorder.longDist <- function(x, X, ...) {
+                                        # convert object names to
+                                        # numeric
+    inds <- cbind(match(x$row, X),
+                  match(x$col, X))
+                                        # get lower ranked names in
+                                        # row's column
+    rowSortedMat <- t(apply(inds, 1, sort))
+                                        # intermediate form of output
+    out <- setNames(data.frame(rowSortedMat, x$dist),
+                    c("row","col","dist"))
+                                        # sort by col and then row
+                                        # indices
+    out <- out[order(out$col),]
+    out <- out[order(out$row),]
+                                        # convert back from numeric to
+                                        # character
+    out$row <- X[out$row]
+    out$col <- X[out$col]
+
+    class(out) <- c("longDist", "data.frame")
+    return(out)
+}
+

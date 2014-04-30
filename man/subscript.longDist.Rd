@@ -3,12 +3,15 @@
 \alias{subscript.longDist}
 \title{Subscript a distance data frame}
 \usage{
-\method{subscript}{longDist}(x, i, ...)
+\method{subscript}{longDist}(x, i, reorder = TRUE, ...)
 }
 \arguments{
 \item{x}{\code{longDist} object}
 
 \item{i}{subscript list}
+
+\item{reorder}{should the order be arranged to be consistent with
+\code{\link{dist}} objects?}
 
 \item{...}{Not used}
 }

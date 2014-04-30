@@ -8,7 +8,7 @@ meanPairwiseDist(slist, sdist)
 \arguments{
 \item{slist}{A \code{\link{speciesList}} object}
 
-\item{sdist}{A distance matrix among species}
+\item{sdist}{A \code{\link{longDist}} object among species}
 }
 \value{
 vector of average pairwise distance for each site

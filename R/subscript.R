@@ -84,8 +84,12 @@ NULL
 ##' @aliases ss subscript.default
 ##' @export
 subscript <- function(x, i, ...) {
-    # FIXME: maybe coerce elements of i to character ??
-    UseMethod('subscript')
+    if(hasBeenProcessed(i)) {
+        UseMethod('subscript')
+    } else {
+        i <- processSubscript(x, i)
+        subscript(x, i)
+    }
 }
 
 ##' @rdname subscript
@@ -95,6 +99,7 @@ ss <- function(x, i, ...) subscript(x, i, ...)
 ##' @rdname subscript
 ##' @method subscript default
 subscript.default <- function(x, i, ...) {
+    stop("subscripting not yet written")
     if(!is.recursive(i)) i <- list(i)
     do.call("[", c(list(x), i))
 }
@@ -109,7 +114,7 @@ subscript.default <- function(x, i, ...) {
 ##' @return A subscripted data frame
 ##' @method subscript data.frame
 ##' @export
-subscript.data.frame <- function(x, i, ...) x[unlist(i, use.names = FALSE), , drop = FALSE]
+subscript.data.frame <- function(x, i, ...) x[i, , drop = FALSE]
 
 
 ##' Subscript a distance matrix
@@ -156,7 +161,7 @@ subscript.dist <- function(x, i, ...){
 ##' @method subscript phylo
 ##' @export
 subscript.phylo <- function(x, i, ...){
-    inot <- setdiff(dNames(x)[[1]], i[[1]])
+    inot <- setdiff(dNames(x)[[1]], i)
     drop.tip(x, inot)
 }
 
@@ -182,11 +187,20 @@ subscript.speciesList <- function(x, i, ...){
 ##'
 ##' @param x \code{longDist} object
 ##' @param i subscript list
+##' @param reorder should the order be arranged to be consistent with
+##' \code{\link{dist}} objects?
 ##' @param ... Not used
 ##' @return subscripted \code{longDist} object
 ##' @export
-subscript.longDist <- function(x, i, ...){
-    x[(x$row %in% i) & (x$col %in% i), ]
+subscript.longDist <- function(x, i, reorder = TRUE, ...){
+    if(length(i) < 2L) {
+        out <- data.frame(row = NA, col = NA, dist = 0)
+    } else {
+        out <- x[(x$row %in% i) & (x$col %in% i), ]
+        if(reorder) out <- reorder(out, dNames(out)[[1]])
+    }
+    attr(out, "dimIds") <- attr(x, "dimIds")
+    return(out)
 }
 
 
@@ -206,3 +220,69 @@ subscript.poly.data.frame <- function(x, i, ...){
 }
 
 
+
+##' Process subscript
+##' 
+##' @param x an object to be subscripted
+##' @param i subscript
+##' @return the processed subscript with a \code{processed} attribute
+##' @export
+processSubscript <- function(x, i, ...) {
+    nd <-  nDims(x)
+    li <- length(i)
+    dn <- dNames(x)
+    di <- dimIds(x)
+    if(is.recursive(i)) {
+        if(nd == 1L) {
+                                        # recursive subscript, 1D
+                                        # object
+            if(li > 1L) stop("more than one subscript dimension ",
+                             "for a one-dimensional object")
+            i <- as.character(unlist(i, use.names = FALSE))
+            if(!allIn(i, dn[[1]]))
+                stop("subscript out of range")
+        } else {
+            if(is.null(di)) {
+                                        # recursive subscript,
+                                        # multidimensional object, no
+                                        # dimIds
+                if(nd != li) stop("dimensions being subscripted ambiguous")
+                i <- lapply(i, as.character)
+                if(!allIn(i, dn[[1]]))
+                    stop("subscript out of range")
+            } else {
+                                        # recursive subscript,
+                                        # multidimensional object,
+                                        # with dimIds
+                nm <-  names(i)
+                if(is.null(nm)) {
+                    if(li != length(di))
+                        stop("dimensions being subscripted ambiguous")
+                    nm <- di
+                }
+                i <- setNames(lapply(i, as.character), nm)
+                i <- setNames(i[di], di)
+            }
+            if(!all(mapply(allIn, i, dn)))
+                stop("subscript out of range")
+        } 
+    } else {
+        if(nd == 1L) {
+                                        # vector subscript, 1D object
+            i <- as.character(i)
+        } else {
+                                        # vector subscript,
+                                        # multidimensional object
+            stop("dimension being subscripted ambiguous")
+        }
+        if(!allIn(i, dn[[1]]))
+            stop("subscript out of range")
+    } 
+    attr(i, "processed") <- "tag"
+    return(i)
+}
+
+hasBeenProcessed <- function(i)
+    ifelse(is.null(attr(i, "processed")), FALSE, TRUE)
+
+allIn <- function(x, y) all(x %in% y)

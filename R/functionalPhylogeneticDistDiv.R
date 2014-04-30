@@ -8,13 +8,17 @@
 ##' @return combined distance matrix
 ##' @export
 combineDists <- function(dist1, dist2, a, p = 2) {
+    dist1 <- as.longDist(dist1)
+    dist2 <- as.longDist(dist2)
+    ## FIXME:  move this check to reorder ??
     if(!identical(sort(unlist(dNames(dist1), use.names = FALSE)),
                   sort(unlist(dNames(dist2), use.names = FALSE))))
         stop("incompatible distance matrices")
-    dist2 <- ss(dist2, dNames(dist1))
-    distOut <- ( (a * (dist1^p)) +
-                ((1-a) * (dist2^p)) )^(1/p)
-    return(distOut)
+    dist2 <- reorder(dist2, dNames(dist1)[[1]])
+    distsOut <- ( (a * (dist1$dist^p)) +
+                ((1-a) * (dist2$dist^p)) )^(1/p)
+    dist1$dist <- distsOut
+    return(dist1)
 }
 
 ## param formula One-sided \code{\link{formula}} object giving
@@ -41,15 +45,14 @@ combineDists <- function(dist1, dist2, a, p = 2) {
 ##' Mean pairwise distance
 ##'
 ##' @param slist A \code{\link{speciesList}} object
-##' @param sdist A distance matrix among species
+##' @param sdist A \code{\link{longDist}} object among species
 ##' @return vector of average pairwise distance for each site
 ##' @export
 meanPairwiseDist <- function(slist, sdist) {
-    distsPerSite <- lapply(slist, subscript, x = sdist)
-    nDistsPerSite <- sapply(distsPerSite, length)
-    ave <- sapply(distsPerSite, sum)
-    ave[ave > 0L] <- ave[ave > 0L]/nDistsPerSite[ave > 0L]
-    return(ave)
+    sdist <- as.longDist(sdist)
+    distsPerSite <- lapply(slist, subscript, x = sdist, reorder = FALSE)
+    distsPerSite <- lapply(distsPerSite, "[[", "dist")
+    return(sapply(distsPerSite, mean))
 }
 
 

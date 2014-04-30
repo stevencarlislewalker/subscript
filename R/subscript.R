@@ -69,7 +69,6 @@
 ##' mean(regs)
 ##' coef(regs)
 ##' a.hpd(regs)
-##' plot(regs)
 NULL
 
 
@@ -85,6 +84,7 @@ NULL
 ##' @aliases ss subscript.default
 ##' @export
 subscript <- function(x, i, ...) {
+    # FIXME: maybe coerce elements of i to character ??
     UseMethod('subscript')
 }
 
@@ -124,10 +124,7 @@ subscript.data.frame <- function(x, i, ...) x[unlist(i, use.names = FALSE), , dr
 ##' @method subscript dist
 subscript.dist <- function(x, i, ...){
 
-
-                                        # convert subscript type to
-                                        # numeric
-    i <- conversion(unlist(i, use.names = FALSE), dNames(x)[[1]])
+    stop("not finished")
     
                                         # compute subscript
     n <- attr(x, 'Size') # size of matrix
@@ -159,11 +156,8 @@ subscript.dist <- function(x, i, ...){
 ##' @method subscript phylo
 ##' @export
 subscript.phylo <- function(x, i, ...){
-                                        # convert to numeric
-    i <- conversion(unlist(i, use.names = FALSE), dNames(x)[[1]])
-
-                                        # compute subscript
-    inot <- setdiff(seq_len(Ntip(x)), i)
+    
+    inot <- setdiff(dNames(x)[[1]], i)
     drop.tip(x, inot)
 }
 
@@ -175,7 +169,7 @@ subscript.phylo <- function(x, i, ...){
 ##' @return subscripted \code{specieslist}
 ##' @export
 subscript.speciesList <- function(x, i, ...){
-    ## i[[1]] <- conversion(i[[1]], names(x))
+    
     ids <- attr(x, "dimIds")
     x <- x[i[[1]]]
     out <- lapply(x, intersect, i[[2]])
@@ -187,21 +181,13 @@ subscript.speciesList <- function(x, i, ...){
 
 ##' Subscript a distance data frame
 ##'
-##' @param x \code{dist.data.frame} object
+##' @param x \code{longDist} object
 ##' @param i subscript list
 ##' @param ... Not used
-##' @return subscripted \code{dist.data.frame} object
+##' @return subscripted \code{longDist} object
 ##' @export
-subscript.dist.data.frame <- function(x, i, ...){
-
-                                        # convert subscript type to
-                                        # numeric
-    nms <- dNames(x)[[1]]
-    i <- conversion(unlist(i, use.names = FALSE), nms)
-                                        # convert back, FIXME!
-    i <- nms[i]
-
-    return(x[(x$row %in% i) & (x$col %in% i), ])
+subscript.longDist <- function(x, i, ...){
+    x[(x$row %in% i) & (x$col %in% i), ]
 }
 
 

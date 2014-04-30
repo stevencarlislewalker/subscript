@@ -73,6 +73,5 @@ regs <- dbDiversityRegression(slist,                         # species list
 mean(regs)
 coef(regs)
 a.hpd(regs)
-plot(regs)
 }
 

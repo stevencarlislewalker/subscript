@@ -24,9 +24,9 @@
 ##'
 ##' pdf <- poly.data.frame(env    = setDimIds(env,         "sites"),
 ##'                        coord  = setDimIds(coord,       "sites"),
-##'                        geog   = setDimIds(dist(coord), "sites"),
+##'                        geog   = setDimIds(longDist(coord), "sites"),
 ##'                        traits = setDimIds(traits,      "species"),
-##'                        coph   = setDimIds(as.dist(cophenetic(tree)), "species"),
+##'                        coph   = setDimIds(longDist(tree), "species"),
 ##'                        tree   = setDimIds(tree,        "species"),
 ##'                        slist  = setDimIds(slist,       c("sites", "species")))
 ##'

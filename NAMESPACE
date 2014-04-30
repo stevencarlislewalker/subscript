@@ -2,10 +2,11 @@
 
 S3method(as.data.frame,speciesList)
 S3method(as.dist,longDist)
+S3method(as.longDist,data.frame)
 S3method(as.longDist,default)
 S3method(as.longDist,dist)
 S3method(as.longDist,matrix)
-S3method(as.longDist,tree)
+S3method(as.longDist,phylo)
 S3method(as.matrix,speciesList)
 S3method(as.poly.data.frame,default)
 S3method(as.speciesList,data.frame)

@@ -13,7 +13,12 @@ longDist <- function(x, ...) as.longDist(x)
 as.longDist <- function(x, ...) UseMethod("as.longDist")
 
 ##' @export
-as.longDist.default <- function(x, ...) stop("no method available")
+as.longDist.default <- function(x, ...) {
+    x <- try(as.dist(x))
+    if(inherits(x, "try-error"))
+        stop("no method available for converting to longDist")
+    as.longDist(x)
+}
 
 ##' @export
 as.longDist.dist <- function(x, ...) {
@@ -36,7 +41,10 @@ as.longDist.matrix <- function(x, ...) {
 }
 
 ##' @export
-as.longDist.tree <- function(x, ...) as.longDist(cophenetic(x))
+as.longDist.data.frame <- function(x, ...) as.longDist(dist(x))
+
+##' @export
+as.longDist.phylo <- function(x, ...) as.longDist(cophenetic(x))
 
 ##' @importFrom stats as.dist
 ##' @export

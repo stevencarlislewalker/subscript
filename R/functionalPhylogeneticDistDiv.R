@@ -68,6 +68,8 @@ meanPairwiseDist <- function(slist, sdist) {
 ##' @rdname dbDiversityRegression
 ##' @export
 dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid) {
+    sdist1 <- as.longDist(sdist1)
+    sdist2 <- as.longDist(sdist2)
     if(missing(aGrid)) aGrid <- seq(0, 1, 0.01)
     dists <- lapply(aGrid, combineDists, dist1 = sdist1, dist2 = sdist2)
     diversities <- sapply(dists, meanPairwiseDist, slist = slist)
@@ -129,7 +131,7 @@ coef.dbDiversityRegression <- function(object, ...) t(sapply(object, coef))
 #'	at each point in this grid.
 #' @rdname dbDiversityRegression
 #' @export
-a.hpd <- function(object, level = 0.95){
+aHpd <- function(object, level = 0.95){
     aGrid <- as.numeric(names(object))
     post <- posterior(object)
 	out <- data.frame(a = aGrid, post = post)
@@ -170,7 +172,7 @@ plot.dbDiversityRegression <- function(x, y, ...){
     xlab <- expression(paste('Weighting parameter, ', italic(a)))
     ylab <- 'Approximate posterior density'
     ylim <- c(0, max(post))
-    hpd <- a.hpd(x)
+    hpd <- aHpd(x)
     a <- as.numeric(names(x))
     #par(mar = c(5, 5, 1, 1))
     plot(post ~ a, data = x$surf,

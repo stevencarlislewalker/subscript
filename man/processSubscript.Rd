@@ -9,6 +9,8 @@ processSubscript(x, i, ...)
 \item{x}{an object to be subscripted}
 
 \item{i}{subscript}
+
+\item{...}{not used}
 }
 \value{
 the processed subscript with a \code{processed} attribute

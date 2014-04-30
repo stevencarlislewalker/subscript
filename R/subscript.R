@@ -40,12 +40,21 @@
 ##' dNamesConcat(pdf)
 ##' dNames(pdf)
 ##'
-##' ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
-##' ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
-##' ss(pdf, list(c("a","e","f"), c("D","C","A")))
+##' ss1 <- ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
+##' ss2 <- ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
+##' ss3 <- ss(pdf, list(c("a","e","f"), c("D","C","A")))
+##' try(ss4 <- ss(pdf, list(c("D","C","A"), c("a","e","f")))) # should be error
 ##'
-##' (FPDist <- combineDists(as.dist(cophenetic(tree)),
-##'                         dist(traits), 0.5))
+##' nDims(pdf)
+##' nDims(traits) # data frames (perhaps confusingly) have one dimension
+##' nDims(tree)
+##'
+##' longDist(tree)
+##' longDist(traits)
+##' reorder(longDist(tree), dNames(traits)[[1]])
+##'
+##' (FPDist <- combineDists(tree, traits, 0.5))
+##' meanPairwiseDist(pdf$slist, setDimIds(FPDist, "species"))
 ##'
 ##' l <- list(env    = env,
 ##'           coord  = coord,
@@ -57,18 +66,15 @@
 ##' pdf2 <- as.poly.data.frame(l, 2)
 ##' summary(pdf2)
 ##' dNames(pdf2)
-##'
-##' meanPairwiseDist(slist, FPDist)
-##'
 ##' regs <- dbDiversityRegression(slist,                         # species list
 ##'                               as.dist(cophenetic(pdf$tree)), # phylogenetic distances
 ##'                               dist(pdf$traits),              # functional distances
 ##'                               setNames(env$x, rownames(env)) # ecosystem function
 ##'                               )
-##' 
+##'
 ##' mean(regs)
 ##' coef(regs)
-##' a.hpd(regs)
+##' aHpd(regs)
 NULL
 
 
@@ -99,7 +105,7 @@ ss <- function(x, i, ...) subscript(x, i, ...)
 ##' @rdname subscript
 ##' @method subscript default
 subscript.default <- function(x, i, ...) {
-    stop("subscripting not yet written")
+    ## stop("subscripting not yet written")
     if(!is.recursive(i)) i <- list(i)
     do.call("[", c(list(x), i))
 }
@@ -225,6 +231,7 @@ subscript.poly.data.frame <- function(x, i, ...){
 ##' 
 ##' @param x an object to be subscripted
 ##' @param i subscript
+##' @param ... not used
 ##' @return the processed subscript with a \code{processed} attribute
 ##' @export
 processSubscript <- function(x, i, ...) {

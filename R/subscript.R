@@ -156,8 +156,7 @@ subscript.dist <- function(x, i, ...){
 ##' @method subscript phylo
 ##' @export
 subscript.phylo <- function(x, i, ...){
-    
-    inot <- setdiff(dNames(x)[[1]], i)
+    inot <- setdiff(dNames(x)[[1]], i[[1]])
     drop.tip(x, inot)
 }
 

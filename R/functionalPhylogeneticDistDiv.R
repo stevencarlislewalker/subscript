@@ -5,16 +5,17 @@
 ##' @param a Weighting parameter (number between 0 and 1 giving the
 ##' weighting towards \code{dist1})
 ##' @param p Metric exponent (\code{p = 2} for Euclidean)
+##' @param reorder Passed to \code{\link{subscript.longDist}}
 ##' @return combined distance matrix
 ##' @export
-combineDists <- function(dist1, dist2, a, p = 2) {
+combineDists <- function(dist1, dist2, a, p = 2, reorder = TRUE) {
     dist1 <- as.longDist(dist1)
     dist2 <- as.longDist(dist2)
     ## FIXME:  move this check to reorder ??
     if(!identical(sort(unlist(dNames(dist1), use.names = FALSE)),
                   sort(unlist(dNames(dist2), use.names = FALSE))))
         stop("incompatible distance matrices")
-    dist2 <- reorder(dist2, dNames(dist1)[[1]])
+    if(reorder) dist2 <- reorder(dist2, dNames(dist1)[[1]])
     distsOut <- ( (a * (dist1$dist^p)) +
                 ((1-a) * (dist2$dist^p)) )^(1/p)
     dist1$dist <- distsOut
@@ -62,19 +63,24 @@ meanPairwiseDist <- function(slist, sdist) {
 ##' @param sdist1 A distance matrix
 ##' @param sdist2 A second distance matrix
 ##' @param resp A response variable
-##' @param aGrid Optional grid of weighting parameters (see
+##' @param aGrid Optional grid of weighting parameters (see 
 ##' \code{\link{combineDists}})
+##' @param reorder Passed to \code{\link{subscript.longDist}}
 ##' @return TODO
 ##' @rdname dbDiversityRegression
 ##' @export
-dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid) {
+dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid, reorder = TRUE) {
     sdist1 <- as.longDist(sdist1)
     sdist2 <- as.longDist(sdist2)
     if(missing(aGrid)) aGrid <- seq(0, 1, 0.01)
-    dists <- lapply(aGrid, combineDists, dist1 = sdist1, dist2 = sdist2)
+    dists <- lapply(aGrid, combineDists,
+                    dist1 = sdist1, dist2 = sdist2,
+                    reorder = reorder)
     diversities <- sapply(dists, meanPairwiseDist, slist = slist)
     colnames(diversities) <- aGrid
-    resp <- ss(resp, rownames(diversities))
+    resp <- subscript(resp,
+                      structure(rownames(diversities), 
+                                processed = "tag")) # tag for speed
     
     regFun <- function(diversity) lm(resp ~ diversity)
     

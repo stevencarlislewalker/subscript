@@ -67,7 +67,7 @@ l <- list(env    = env,
           coph   = as.dist(cophenetic(tree)),
           tree   = tree,
           comm   = slist)
-pdf2 <- as.poly.data.frame(l, 2)
+pdf2 <- as.poly.data.frame(l, 2, verb = TRUE)
 summary(pdf2)
 dNames(pdf2)
 regs <- dbDiversityRegression(slist,                         # species list

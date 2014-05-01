@@ -63,7 +63,7 @@
 ##'           coph   = as.dist(cophenetic(tree)),
 ##'           tree   = tree,
 ##'           comm   = slist)
-##' pdf2 <- as.poly.data.frame(l, 2)
+##' pdf2 <- as.poly.data.frame(l, 2, verb = TRUE)
 ##' summary(pdf2)
 ##' dNames(pdf2)
 ##' regs <- dbDiversityRegression(slist,                         # species list
@@ -94,7 +94,7 @@ subscript <- function(x, i, ...) {
         UseMethod('subscript')
     } else {
         i <- processSubscript(x, i)
-        subscript(x, i)
+        subscript(x, i, ...)
     }
 }
 
@@ -235,10 +235,10 @@ subscript.poly.data.frame <- function(x, i, ...){
 ##' @return the processed subscript with a \code{processed} attribute
 ##' @export
 processSubscript <- function(x, i, ...) {
-    nd <-  nDims(x)
     li <- length(i)
     dn <- dNames(x)
-    di <- dimIds(x)
+    nd <- length(dn)  #  nDims(x), but faster
+    di <-  names(dn)  # dimIds(x), but faster
     if(is.recursive(i)) {
         if(nd == 1L) {
                                         # recursive subscript, 1D

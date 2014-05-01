@@ -10,9 +10,9 @@ poly.data.frame(...)
 
 is.poly.data.frame(x)
 
-as.poly.data.frame(x, nDims)
+as.poly.data.frame(x, nDims, verb = FALSE)
 
-\method{as.poly.data.frame}{default}(x, nDims)
+\method{as.poly.data.frame}{default}(x, nDims, verb = FALSE)
 }
 \arguments{
 \item{...}{Objects to combine into a \code{poly.data.frame}
@@ -21,6 +21,8 @@ object.}
 \item{x}{An \code{R} object}
 
 \item{nDims}{see \code{\link{calcDimIds}}}
+
+\item{verb}{see \code{\link{calcDimIds}}}
 }
 \description{
 Data frame with unusual shape

@@ -3,13 +3,15 @@
 \alias{calcDimIds}
 \title{Estimate and set dimnames names}
 \usage{
-calcDimIds(x, nDims)
+calcDimIds(x, nDims, verb = FALSE)
 }
 \arguments{
 \item{x}{A \code{\link{list}} object}
 
 \item{nDims}{Number of dimensions into which variables are to be
 clustered}
+
+\item{verb}{print seriated table?}
 }
 \value{
 \code{x} with \code{\link{dimIds}}

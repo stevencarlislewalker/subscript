@@ -77,7 +77,7 @@ reorder.longDist <- function(x, X, ...) {
                                         # character
     out$row <- X[out$row]
     out$col <- X[out$col]
-
+    attr(out, "dimIds") <- attr(x, "dimIds")
     class(out) <- c("longDist", "data.frame")
     return(out)
 }

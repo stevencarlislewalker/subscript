@@ -47,25 +47,30 @@ setDimIds <- function(x, value) {
     return(x)
 }
 
-##' Estimate and set dimnames names
+##' Estimate and set pattern of dimension sharing
 ##'
 ##' Uses \code{\link{kmeans}} clustering on the first axis of a
 ##' correspondence analysis (\code{\link{corresp}}) of the union of
-##' all dimnames against variables
+##' all \code{\link{dNames}} against variables
 ##' 
 ##' @param x A \code{\link{list}} object
 ##' @param nDims Number of dimensions into which variables are to be
 ##' clustered
+##' @param verb print seriated table?
 ##' @return \code{x} with \code{\link{dimIds}}
 ##' @importFrom MASS corresp
 ##' @export
-calcDimIds <- function(x, nDims) {
+calcDimIds <- function(x, nDims, verb = FALSE) {
     ## if (!require(MASS))
     ##     stop("MASS package is required")
     dnc <- dNamesConcat(x)
     xTable <- as.table(speciesList(dnc))
     ca <- corresp(xTable)
     seriate <- xTable[order(ca$rscore), order(ca$cscore)]
+    if(verb) {
+        dimIds(seriate) <- c("dimensions","levels")
+        print(seriate)
+    }
     clusts <- kmeans(ca$rscore, nDims)$cluster[names(dnc)]
     ids <- setNames(paste("D", clusts, sep = ""), names(clusts))
     nDimsPerVariable <- rep(names(x), sapply(dNamesNested(x), length))
@@ -75,8 +80,13 @@ calcDimIds <- function(x, nDims) {
 
 
 
-
+## makes things slow, but avoids DRY, and keeps this decision in one
+## place.  'this decision' being whether to look for dimIds in the
+## attributes or as names of characteristic names, dn
+## FIXME: perhaps just put an attribute on every object ??
 dimIdsExtract <- function(x, dn) {
+    ## x  -- an object
+    ## dn -- characteristic names of object dimensions
     dnn <- attr(x, "dimIds")
     if(!is.null(dnn)) names(dn) <- dnn
     return(dn)
@@ -100,7 +110,6 @@ dNames.default <- function(x) {
 
 ##' @export
 dNames.data.frame <- function(x) dimIdsExtract(x, list(rownames(x)))
-
 
 ##' @export
 dNames.dist <- function(x) dimIdsExtract(x, list(attr(x, "Labels")))

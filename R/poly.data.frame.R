@@ -20,18 +20,19 @@ poly.data.frame <- function(...) {
 is.poly.data.frame <- function(x) inherits(x, "poly.data.frame")
 
 ##' @param nDims see \code{\link{calcDimIds}}
+##' @param verb see \code{\link{calcDimIds}}
 ##' @rdname poly.data.frame
 ##' @export
-as.poly.data.frame <- function(x, nDims) {
+as.poly.data.frame <- function(x, nDims, verb = FALSE) {
     UseMethod("as.poly.data.frame")
 }
 
 ##' @rdname poly.data.frame
 ##' @export
-as.poly.data.frame.default <- function(x, nDims) {
+as.poly.data.frame.default <- function(x, nDims, verb = FALSE) {
     if(is.data.frame(x)) return(x)
     if(!is.recursive(x)) stop("only list-like objects")
-    out <- calcDimIds(x, nDims)
+    out <- calcDimIds(x, nDims, verb)
     class(out) <- "poly.data.frame"
     return(out)
 }

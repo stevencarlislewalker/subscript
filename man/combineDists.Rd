@@ -3,7 +3,7 @@
 \alias{combineDists}
 \title{Euclidean combination of distance matrices}
 \usage{
-combineDists(dist1, dist2, a, p = 2)
+combineDists(dist1, dist2, a, p = 2, reorder = TRUE)
 }
 \arguments{
 \item{dist1}{A distance matrix}
@@ -14,6 +14,8 @@ combineDists(dist1, dist2, a, p = 2)
 weighting towards \code{dist1})}
 
 \item{p}{Metric exponent (\code{p = 2} for Euclidean)}
+
+\item{reorder}{Passed to \code{\link{subscript.longDist}}}
 }
 \value{
 combined distance matrix

@@ -44,7 +44,8 @@
 ##' ss2 <- ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
 ##' ss3 <- ss(pdf, list(c("a","e","f"), c("D","C","A")))
 ##' try(ss4 <- ss(pdf, list(c("D","C","A"), c("a","e","f")))) # should be error
-##'
+##' ss5 <- ss(pdf, list(species = c("D","C","A")))
+##' 
 ##' nDims(pdf)
 ##' nDims(traits) # data frames (perhaps confusingly) have one dimension
 ##' nDims(tree)
@@ -268,7 +269,9 @@ processSubscript <- function(x, i, ...) {
                     nm <- di
                 }
                 i <- setNames(lapply(i, as.character), nm)
-                i <- setNames(i[di], di)
+                i <- setNames(                  i[di], di)
+                whichNull <- which(sapply(i, is.null))
+                i[whichNull] <- dn[whichNull]
             }
             if(!all(mapply(allIn, i, dn)))
                 stop("subscript out of range")
@@ -292,4 +295,5 @@ processSubscript <- function(x, i, ...) {
 hasBeenProcessed <- function(i)
     ifelse(is.null(attr(i, "processed")), FALSE, TRUE)
 
+# is all of x in y?
 allIn <- function(x, y) all(x %in% y)

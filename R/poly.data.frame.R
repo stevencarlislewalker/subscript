@@ -88,36 +88,48 @@ print.poly.data.frame <- function(x, full = FALSE,...) {
 ##' @return \code{\link{poly.data.frame}} object
 ##' @export
 within.poly.data.frame <- function(data, expr, ...) {
-	# CURRENTLY EXPERIMENTAL
-	
-	## dimids <- names(attr(bm(data), "subsetdim"))
-	
-	# most of this code is just taken from within.list,
-	# with my own annotations to try and understand it.
-	
-	parent <- parent.frame()
-	
-	# essentially this line converts the data list to
-	# an 'environment'.  in particular it creates
-	# an environment with the variables in data
-	# as elements.  the subsetdim attribute remains
-	# attached to each of those elements but the overall
-	# attributes of the data list are gone (including
-	# the names, and match.dimids, attributes)
-	e <- evalq(environment(), data, parent)
-	
-	# evaluates the expr within the environment
-	# created from the data list.
-	eval(substitute(expr), e)
-	
-	data <- as.list(e)
-	
-	# here's the main change: instead of as.list (to
-	# convert back to a list), use as.data.list.
-	# as.data.list(data, dimids = dimids)
-        check.poly.data.frame(data)
-        class(data) <- "poly.data.frame"
-        return(data)
+                                        # CURRENTLY EXPERIMENTAL
+    
+                                        # save for later
+    nms <- dNames(data)
+    ids <- names(nms) # dimIds but faster
+    ## dimids <- names(attr(bm(data), "subsetdim"))
+    
+                                        # most of this code is just taken from within.list,
+                                        # with my own annotations to try and understand it.
+    
+    parent <- parent.frame()
+    
+                                        # essentially this line converts the data list to
+                                        # an 'environment'.  in particular it creates
+                                        # an environment with the variables in data
+                                        # as elements.  the subsetdim attribute remains
+                                        # attached to each of those elements but the overall
+                                        # attributes of the data list are gone (including
+                                        # the names, and match.dimids, attributes)
+    e <- evalq(environment(), data, parent)
+    
+                                        # evaluates the expr within the environment
+                                        # created from the data list.
+    eval(substitute(expr), e)
+    
+    data <- as.list(e)
+    
+                                        # here's the main change: instead of as.list (to
+                                        # convert back to a list), use as.data.list.
+                                        # as.data.list(data, dimids = dimids)
+    chk <- try(check.poly.data.frame(data), silent = TRUE)
+    if(inherits(chk, "try-error")) {
+        ## concat2NestedIndex()
+        ## nmsNew <- dNamesConcat(data)
+        ## idsConcat <- apply(compareConcat(nmsNew, nms), 1, which.min)
+        ids <- dimIdsUnique(data)
+        data <- calcDimIds(data, length(ids))
+        # index <- apply(compareNames(dNames(data), nms), 1, which.min)
+        # ids[index]
+    }
+    class(data) <- "poly.data.frame"
+    return(data)
 }
 
 ##' Utility functions for poly.data.frame
@@ -143,10 +155,38 @@ dimIdsConcat <- function(x) do.call(c, lapply(dNamesNested(x), names))
 ##' @export
 dimIdsUnique <- function(x) unique(dimIdsConcat(x))
 
+##' @rdname utility
+##' @export
+concat2NestedIndex <- function(x) {
+    ## returns a character vector that can be used as the index of a
+    ## tapply call, where X in that call is from a *Concat function
+    nDimsPerVariable <- sapply(dNamesNested(x), length)
+    rep(names(x), nDimsPerVariable)
+}
+
+##' @param nms1 names
+##' @param nms2 names
+##' @rdname utility
+##' @export
+compareNames <- function(nms1, nms2){
+    n <- length(nms1)
+    m <- length(nms2)
+    met <- matrix(nrow = n, ncol = m)
+    for(i in 1:n) for(j in 1:m)
+        met[i, j] <- (length %f% setdiff)(nms1[[j]], nms2[[i]])
+    dimnames(met) <- list(names(nms2), names(nms1))
+    return(met)
+}
+
+
 
 ## Internal functions
 check.poly.data.frame <- function(x) {
-    if(any(!sapply(dimIdsNested(x), length)))
+    !sapply(dimIdsNested(x), length)
+    if(any())
         stop("\nall objects must have dimIds (dimension identifiers)\n",
              "which can be set using the setDimIds function")
 }
+
+
+compareStrings <- function(x, y) length(setdiff(x, y))/length(union(x, y))

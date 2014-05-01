@@ -24,6 +24,10 @@ dimIds <- function(x) names(dNames(x))
 ##' @rdname dimIds
 ##' @export
 `dimIds<-` <- function(x, value) {
+    if(is.poly.data.frame(x))
+        stop("cannot set dimIds for poly data frames, ",
+             "as these come from the dimIds of the ",
+             "constituent objects")
     if(is.data.frame(x)) return(structure(x, dimIds = value))
     out <- try(names(dimnames(x)) <- value, silent = TRUE)
     if(inherits(out, "try-error")) {
@@ -61,23 +65,43 @@ setDimIds <- function(x, value) {
 ##' @importFrom MASS corresp
 ##' @export
 calcDimIds <- function(x, nDims, verb = FALSE) {
-    ## if (!require(MASS))
-    ##     stop("MASS package is required")
+                                        # what are the levels of the
+                                        # dimensions of the
+                                        # constituent objects?
     dnc <- dNamesConcat(x)
+                                        # convert this list of level
+                                        # names into a
+                                        # dimensions-by-levels
+                                        # incidence matrix
     xTable <- as.table(speciesList(dnc))
+                                        # compute a correspondence
+                                        # analysis of this incidence
+                                        # matrix
     ca <- corresp(xTable)
+                                        # seriate the matrix according
+                                        # to the correspondence
+                                        # analysis
     seriate <- xTable[order(ca$rscore), order(ca$cscore)]
     if(verb) {
         dimIds(seriate) <- c("dimensions","levels")
         print(seriate)
     }
+                                        # cluster dimensions based on
+                                        # the correspondence analysis
+                                        # -- clusters estimate
+                                        # dimension sharing
     clusts <- kmeans(ca$rscore, nDims)$cluster[names(dnc)]
+                                        # name these clusters -- which
+                                        # are the dimIds
     ids <- setNames(paste("D", clusts, sep = ""), names(clusts))
-    nDimsPerVariable <- rep(names(x), sapply(dNamesNested(x), length))
-    idList <- tapply(ids, nDimsPerVariable, unname)[names(x)]
+                                        # append these dimIds to the
+                                        # appropriate variables by
+                                        # moving from nested to
+                                        # concatenated form
+    index <- concat2NestedIndex(x)
+    idList <- tapply(ids, index, unname)[names(x)]
     mapply(setDimIds, x, idList)
 }
-
 
 
 ## makes things slow, but avoids DRY, and keeps this decision in one

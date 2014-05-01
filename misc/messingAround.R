@@ -106,3 +106,4 @@ pdf <- within(pdf, {
 
 with(pdf, meanPairwiseDist(slist, fpdist))
 
+

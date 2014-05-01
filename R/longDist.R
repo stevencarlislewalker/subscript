@@ -6,7 +6,7 @@
 ##' columns, \code{row},\code{col}, and \code{dist}
 ##' @rdname longDist
 ##' @export
-longDist <- function(x, ...) as.longDist(x)
+longDist <- function(x, ...) as.longDist(x, ...)
 
 ##' @rdname longDist
 ##' @export
@@ -17,14 +17,22 @@ as.longDist.default <- function(x, ...) {
     x <- try(as.dist(x))
     if(inherits(x, "try-error"))
         stop("no method available for converting to longDist")
-    as.longDist(x)
+    as.longDist(x, ...)
 }
 
 ##' @export
 as.longDist.longDist <- function(x, ...) x
 
+##' @param norm normalize distances such that the maximum distance
+##' equals one?
+##' @param reorder see \code{\link{reorder.longDist}}
+##' @param sortorder similar to \code{\link{reorder}} but with sorted
+##' \code{\link{dNames}}
+##' @rdname longDist
 ##' @export
-as.longDist.dist <- function(x, ...) {
+as.longDist.dist <- function(x,   norm = FALSE,
+                               reorder = FALSE,
+                             sortorder = FALSE, ...) {
     n <- attr(x, 'Size') # size of matrix
     nms <- dNames(x)[[1]]
     if(is.null(nms)) nms <- 1:n
@@ -32,21 +40,24 @@ as.longDist.dist <- function(x, ...) {
     iCol <- iRow + sequence((n-1):1) # col indices to keep
     out <- data.frame(row = nms[iRow], col = nms[iCol], dist = x[],
                       stringsAsFactors = FALSE)
+    if(norm) out$dist <- out$dist/max(out$dist)
     class(out) <- c("longDist", "data.frame")
+    if(reorder) out <- reorder(out, nms)
+    if(sortorder) out <- reorder(out, sort(nms))
     return(out)
 }
 
 ##' @export
 as.longDist.matrix <- function(x, ...) {
     if(!isSymmetric(x)) stop("only symmetric matrices can be converted to dist")
-    as.longDist(as.dist(x))
+    as.longDist(as.dist(x), ...)
 }
 
 ##' @export
-as.longDist.data.frame <- function(x, ...) as.longDist(dist(x))
+as.longDist.data.frame <- function(x, ...) as.longDist(dist(x), ...)
 
 ##' @export
-as.longDist.phylo <- function(x, ...) as.longDist(cophenetic(x))
+as.longDist.phylo <- function(x, ...) as.longDist(cophenetic(x), ...)
 
 ##' @importFrom stats as.dist
 ##' @export
@@ -55,7 +66,12 @@ as.dist.longDist <- function(m, diag = FALSE, upper = FALSE) {
     nms <- dNames(m)[[1]]
 }
 
-
+##' Reorder distances as in a dist object
+##'
+##' @param x \code{longDist} object
+##' @param X character vector giving order
+##' @param ... not used
+##' @return vector reordered version of \code{x}
 ##' @importFrom stats reorder
 ##' @export
 reorder.longDist <- function(x, X, ...) {

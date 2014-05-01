@@ -48,6 +48,7 @@ ss1 <- ss(pdf, list(species = c("D","C","A"), sites = c("a","e","f")))
 ss2 <- ss(pdf, list(sites = c("a","e","f"), species = c("D","C","A")))
 ss3 <- ss(pdf, list(c("a","e","f"), c("D","C","A")))
 try(ss4 <- ss(pdf, list(c("D","C","A"), c("a","e","f")))) # should be error
+ss5 <- ss(pdf, list(species = c("D","C","A")))
 
 nDims(pdf)
 nDims(traits) # data frames (perhaps confusingly) have one dimension

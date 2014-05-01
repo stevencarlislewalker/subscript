@@ -182,8 +182,7 @@ compareNames <- function(nms1, nms2){
 
 ## Internal functions
 check.poly.data.frame <- function(x) {
-    !sapply(dimIdsNested(x), length)
-    if(any())
+    if(any(!sapply(dimIdsNested(x), length)))
         stop("\nall objects must have dimIds (dimension identifiers)\n",
              "which can be set using the setDimIds function")
 }

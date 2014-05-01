@@ -57,6 +57,22 @@ meanPairwiseDist <- function(slist, sdist) {
 }
 
 
+##' @return TODO
+##' @rdname dbDiversityRegression
+##' @export
+
+dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, reorder = TRUE) {
+    if(missing(aGrid)) aGrid <- seq(0, 1, 0.01)
+    sdist1 <- as.longDist(sdist1)
+    sdist2 <- as.longDist(sdist2)
+    dists <- lapply(aGrid, combineDists,
+                    dist1 = sdist1, dist2 = sdist2,
+                    reorder = reorder)
+    diversities <- sapply(dists, meanPairwiseDist, slist = slist)
+    colnames(diversities) <- aGrid
+    return(diversities)
+}
+
 ##' Simple linear regression on distance-based diversity indices
 ##'
 ##' @param slist A \code{\link{speciesList}} object
@@ -70,14 +86,9 @@ meanPairwiseDist <- function(slist, sdist) {
 ##' @rdname dbDiversityRegression
 ##' @export
 dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid, reorder = TRUE) {
-    sdist1 <- as.longDist(sdist1)
-    sdist2 <- as.longDist(sdist2)
-    if(missing(aGrid)) aGrid <- seq(0, 1, 0.01)
-    dists <- lapply(aGrid, combineDists,
-                    dist1 = sdist1, dist2 = sdist2,
-                    reorder = reorder)
-    diversities <- sapply(dists, meanPairwiseDist, slist = slist)
-    colnames(diversities) <- aGrid
+
+    diversities <- dbDiversityProfile(slist, sdist1, sdist2, aGrid, reorder)
+    aGrid <- as.numeric(colnames(diversities))
     resp <- subscript(resp,
                       structure(rownames(diversities), 
                                 processed = "tag")) # tag for speed

@@ -108,7 +108,9 @@ ss <- function(x, i, ...) subscript(x, i, ...)
 subscript.default <- function(x, i, ...) {
     ## stop("subscripting not yet written")
     if(!is.recursive(i)) i <- list(i)
-    do.call("[", c(list(x), i))
+    out <- do.call("[", c(list(x), i))
+    attr(out, "dimIds") <- attr(x, "dimIds")
+    return(out)
 }
 
 ##' Subscript a data frame

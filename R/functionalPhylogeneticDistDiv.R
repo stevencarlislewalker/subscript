@@ -200,9 +200,17 @@ plot.dbDiversityRegression <- function(x, y, ...){
     lines(post ~ a, data = x$surf)
 }
 
-    
+##' Random permutation
+##'
+##' @param x a vector
+##' @return \code{x} randomly permuted
+##' @export
+permute <- function(x) x[sample.int(length(x))]
+
 
 
     ## mode.a <- a[which.max(posterior)]
     ## var.a <- delta * sum(posterior * ((a - mean.a)^2))
+
+
 

@@ -176,7 +176,7 @@ subscript.longDist <- function(x, i, reOrder = TRUE, ...){
 ##' @method subscript poly.data.frame
 ##' @export
 subscript.poly.data.frame <- function(x, i, ...){
-    if(is.null(names(i))) names(i) <- dimIdsUnique(x)
+    if(is.null(names(i))) names(i) <- dimIdsUnique(x) # FIXME: necessary ??
     ids <- dimIdsNested(x)
     i <- lapply(i, unique)
     for(j in seq_along(x)) x[[j]] <- subscript(x[[j]], i[ids[[j]]])

@@ -122,15 +122,11 @@ reOrder.longDist <- function(x, i, ...) {
 ##' @method reOrder poly.data.frame
 ##' @export
 reOrder.poly.data.frame <- function(x, i, ...) {
-    if(missing(i)) i <- dNames(x)
-    ss(x, i)
-
-    ## if(is.null(names(i))) names(i) <- dimIdsUnique(x)
-    ## ids <- dimIdsNested(x)
-    ## i <- lapply(i, unique)
-    ## for(j in seq_along(x)) x[[j]] <- subscript(x[[j]], i[ids[[j]]])
-    ## return(x)
+    # FIXME: DRY !!
+    if(is.null(names(i))) names(i) <- dimIdsUnique(x)
+    ids <- dimIdsNested(x)
+    i <- lapply(i, unique)
+    for(j in seq_along(x)) x[[j]] <- reOrder(x[[j]], i[ids[[j]]])
+    return(x)
 }
-
-   
 

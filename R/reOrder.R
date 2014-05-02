@@ -40,15 +40,53 @@ reOrder.default <- function(x, i, ...) {
 
 
 ##' @rdname reOrder
+##' @method reOrder data.frame
 ##' @export
-reOrder.poly.data.frame <- function(x, i, ...) {
-    if(missing(i)) i <- dNames(x)
-    ss(x, i)
+reOrder.data.frame <- function(x, i, ...) x[i, , drop = FALSE]
+
+
+##' @rdname reOrder
+##' @method reOrder dist
+##' @export 
+reOrder.dist <- function(x, i, ...)
+    as.dist(reOrder(as.longDist(x), i)) # same idiom as subscript.dist
+
+
+##' @rdname reOrder
+##' @method reOrder phylo
+##' @export
+reOrder.phylo <- function(x, i, ...) {
+    # From http://ape-package.ird.fr/misc/FormatTreeR_24Oct2012.pdf:
+    # "There is no mandatory order for the rows of edge, but they may
+    # be arranged in a way that is efficient for computation and
+    # manipulation."  Therefore, I take it that the code below
+    # conforms to the phylo API.
+
+    xNew <- x
+    xNew$edge[match(1:Ntip(x), x$edge[,2]),2] <- match(x$tip.label, i)
+    xNew$tip.label <- i[]
+
+    attr(xNew, "dimIds") <- attr(x, "dimIds")
+    return(xNew)
+}
+
+
+##' @rdname reOrder
+##' @method reOrder speciesList
+##' @export
+reOrder.speciesList <- function(x, i, ...){
+    ## ids <- attr(x, "dimIds")
+    ## x <- x[i[[1]]]
+    ## out <- lapply(x, intersect, x = i[[2]])
+    ## attr(out, "dimIds") <- ids
+    ## class(out) <- "speciesList"
+    ## return(out)
 }
 
 
 
 ##' @importFrom stats reorder
+##' @method reOrder poly.data.frame
 ##' @rdname reOrder
 ##' @export
 reOrder.longDist <- function(x, i, ...) {
@@ -80,18 +118,18 @@ reOrder.longDist <- function(x, i, ...) {
 
 
 ##' @rdname reOrder
+##' @method reOrder poly.data.frame
 ##' @export
-reOrder.phylo <- function(x, i, ...) {
-    # From http://ape-package.ird.fr/misc/FormatTreeR_24Oct2012.pdf:
-    # "There is no mandatory order for the rows of edge, but they may
-    # be arranged in a way that is efficient for computation and
-    # manipulation."  Therefore, I take it that the code below
-    # conforms to the phylo API.
+reOrder.poly.data.frame <- function(x, i, ...) {
+    if(missing(i)) i <- dNames(x)
+    ss(x, i)
 
-    xNew <- x
-    xNew$edge[match(1:Ntip(x), x$edge[,2]),2] <- match(x$tip.label, i)
-    xNew$tip.label <- i[]
-
-    attr(xNew, "dimIds") <- attr(x, "dimIds")
-    return(xNew)
+    ## if(is.null(names(i))) names(i) <- dimIdsUnique(x)
+    ## ids <- dimIdsNested(x)
+    ## i <- lapply(i, unique)
+    ## for(j in seq_along(x)) x[[j]] <- subscript(x[[j]], i[ids[[j]]])
+    ## return(x)
 }
+
+   
+

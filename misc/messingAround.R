@@ -1,5 +1,12 @@
 example("subscript-package", package = "subscript")
 
+as.dist(pdf$geog)
+dist(pdf$coord)
+
+
+
+
+
 set.seed(1)
 par(mfrow = c(2, 1), mar = rep(0, 4))
 plot(pdf$tree)
@@ -7,41 +14,6 @@ plot(reOrder(pdf$tree, LETTERS[sample.int(5)]))
 
 
 
-Ntip(x)
-x$edge
-y$edge[match(1:Ntip(x), x$edge[,2]),2] <- match(x$tip.label, i)
-y$tip.label <- i
-
-
-
-y$edge <- x$edge[order(x$edge[,2]),]
-y$edge.length <- x$edge.length[order(x$edge[,2])]
-
-
-plot(y)
-plot(x)
-
-match(i, x$tip.label)
-
-
-
-
-match(1:Ntip(x), x$edge[,2])
-
-print.default(x)
-print.default(y)
-
-x$edge.length
-y$edge.length
-
-x$edge[1:Ntip(x),2] <- match(i, x$tip.label)
-plot(x)
-
-
-reOrder.phylo <- function(x, i, ...) {
-    newEdge <- x$edge[order(x$edge[,2]),]
-    newEdge[1:Ntip(x), 2] <- x$tip.label[
-}
 
 
 regs <- dbDiversityRegression(slist,                         # species list

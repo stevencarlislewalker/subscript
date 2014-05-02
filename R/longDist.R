@@ -62,8 +62,14 @@ as.longDist.phylo <- function(x, ...) as.longDist(cophenetic(x), ...)
 ##' @importFrom stats as.dist
 ##' @export
 as.dist.longDist <- function(m, diag = FALSE, upper = FALSE) {
-    stop("not done")
-    nms <- dNames(m)[[1]]
+    m <- reOrder(m)
+    dn <- dNames(m)[[1]]
+    structure(m$dist[],
+              Size = length(dn),
+              Labels = dn,
+              Diag = diag,
+              Upper = upper,
+              class = "dist")
 }
 
 

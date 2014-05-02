@@ -63,7 +63,10 @@ reOrder.longDist <- function(x, i, ...) {
     out <- setNames(data.frame(rowSortedMat, x$dist),
                     c("row","col","dist"))
                                         # sort by col and then row
-                                        # indices
+                                        # indices, which gives an
+                                        # order of the dist column
+                                        # that is compatible with dist
+                                        # objects
     out <- out[order(out$col),]
     out <- out[order(out$row),]
                                         # convert back from numeric to

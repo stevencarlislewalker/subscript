@@ -2,7 +2,13 @@
 \name{subscript}
 \alias{ss}
 \alias{subscript}
+\alias{subscript.data.frame}
 \alias{subscript.default}
+\alias{subscript.dist}
+\alias{subscript.longDist}
+\alias{subscript.phylo}
+\alias{subscript.poly.data.frame}
+\alias{subscript.speciesList}
 \title{Subscript}
 \usage{
 subscript(x, i, ...)
@@ -10,6 +16,18 @@ subscript(x, i, ...)
 ss(x, i, ...)
 
 \method{subscript}{default}(x, i, ...)
+
+\method{subscript}{data.frame}(x, i, ...)
+
+\method{subscript}{dist}(x, i, ...)
+
+\method{subscript}{phylo}(x, i, ...)
+
+\method{subscript}{speciesList}(x, i, ...)
+
+\method{subscript}{longDist}(x, i, reOrder = TRUE, ...)
+
+\method{subscript}{poly.data.frame}(x, i, ...)
 }
 \arguments{
 \item{x}{An object with data to be subscripted.}
@@ -17,6 +35,9 @@ ss(x, i, ...)
 \item{i}{Indices for the dimensions of replication of \code{x}.}
 
 \item{...}{Not used.}
+
+\item{reOrder}{should the order be arranged to be consistent with
+\code{\link{dist}} objects?}
 }
 \value{
 A subscripted version of \code{x}.
@@ -24,5 +45,15 @@ A subscripted version of \code{x}.
 \description{
 Generic function for subscripting data objects.  \code{ss} is a
 synonym for \code{subscript}.
+}
+\details{
+Data frames are subscripted by rows (i.e. replicates) only.
+}
+\seealso{
+Specific \code{subscript} methods are available for
+\code{\link{data.frame}}, \code{\link{dist}}, \code{\link{phylo}},
+\code{\link{speciesList}}, \code{\link{longDist}}, and
+\code{\link{poly.data.frame}} objects.  The
+\code{\link{subscript-package}} help page has many examples.
 }
 

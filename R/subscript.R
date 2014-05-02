@@ -83,12 +83,19 @@ NULL
 ##' 
 ##' Generic function for subscripting data objects.  \code{ss} is a
 ##' synonym for \code{subscript}.
+##'
+##' Data frames are subscripted by rows (i.e. replicates) only.
 ##' 
 ##' @param x An object with data to be subscripted.
 ##' @param i Indices for the dimensions of replication of \code{x}.
 ##' @param ... Not used.
 ##' @return A subscripted version of \code{x}.
 ##' @aliases ss subscript.default
+##' @seealso Specific \code{subscript} methods are available for
+##' \code{\link{data.frame}}, \code{\link{dist}}, \code{\link{phylo}},
+##' \code{\link{speciesList}}, \code{\link{longDist}}, and
+##' \code{\link{poly.data.frame}} objects.  The
+##' \code{\link{subscript-package}} help page has many examples.
 ##' @export
 subscript <- function(x, i, ...) {
     if(hasBeenProcessed(i)) {
@@ -103,8 +110,10 @@ subscript <- function(x, i, ...) {
 ##' @export
 ss <- function(x, i, ...) subscript(x, i, ...)
 
+
 ##' @rdname subscript
 ##' @method subscript default
+##' @export
 subscript.default <- function(x, i, ...) {
     if(!is.recursive(i)) i <- list(i)
     out <- do.call("[", c(list(x), i))
@@ -112,40 +121,19 @@ subscript.default <- function(x, i, ...) {
     return(out)
 }
 
-##' Subscript a data frame
-##' 
-##' Subscript a data frame by rows (i.e. replicates) only.
-##' 
-##' @param x A data frame.
-##' @param i Indices for the rows.
-##' @param ... Not used.
-##' @return A subscripted data frame
+##' @rdname subscript
 ##' @method subscript data.frame
 ##' @export
 subscript.data.frame <- function(x, i, ...) x[i, , drop = FALSE]
 
 
-##' Subscript a distance matrix
-##' 
-##' Subscript a distance matrix as a single-dimensional object.
-##' 
-##' @param x A \code{\link{dist}} object.
-##' @param i Indices for the objects.
-##' @param ... Not used.
-##' @return A subscripted \code{\link{dist}} object.
+##' @rdname subscript
 ##' @export 
 ##' @method subscript dist
 subscript.dist <- function(x, i, ...) as.dist(subscript(as.longDist(x), i))
 
 
-##' Subscript a phylogenetic tree
-##' 
-##' Subscript the tips of a \code{\link{phylo}} object.
-##' 
-##' @param x A \code{\link{phylo}} object.
-##' @param i Indices for the tips.
-##' @param ... Not used.
-##' @return A phylogenetic tree.
+##' @rdname subscript
 ##' @method subscript phylo
 ##' @export
 subscript.phylo <- function(x, i, ...){
@@ -153,12 +141,8 @@ subscript.phylo <- function(x, i, ...){
     drop.tip(x, inot)
 }
 
-##' Subscript a species list
-##'
-##' @param x \code{speciesList} object
-##' @param i Subscript list
-##' @param ... Not used
-##' @return subscripted \code{specieslist}
+##' @rdname subscript
+##' @method subscript speciesList
 ##' @export
 subscript.speciesList <- function(x, i, ...){
     ids <- attr(x, "dimIds")
@@ -170,14 +154,11 @@ subscript.speciesList <- function(x, i, ...){
 }
 
 
-##' Subscript a distance data frame
-##'
-##' @param x \code{longDist} object
-##' @param i subscript list
+
 ##' @param reOrder should the order be arranged to be consistent with
 ##' \code{\link{dist}} objects?
-##' @param ... Not used
-##' @return subscripted \code{longDist} object
+##' @method subscript longDist
+##' @rdname subscript
 ##' @export
 subscript.longDist <- function(x, i, reOrder = TRUE, ...){
     if(length(i) < 2L) {
@@ -191,12 +172,8 @@ subscript.longDist <- function(x, i, reOrder = TRUE, ...){
 }
 
 
-##' Subscript a poly data frame
-##'
-##' @param x \code{poly.data.frame} object
-##' @param i subscript list
-##' @param ... Not used
-##' @return subscripted \code{poly.data.frame}
+##' @rdname subscript
+##' @method subscript poly.data.frame
 ##' @export
 subscript.poly.data.frame <- function(x, i, ...){
     if(is.null(names(i))) names(i) <- dimIdsUnique(x)

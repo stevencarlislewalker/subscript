@@ -1,6 +1,6 @@
 example("subscript-package", package = "subscript")
 
-as.dist(pdf$geog)
+ss(as.dist(pdf$geog), c("b", "d", "a"))
 dist(pdf$coord)
 
 

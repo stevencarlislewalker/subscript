@@ -135,29 +135,8 @@ subscript.data.frame <- function(x, i, ...) x[i, , drop = FALSE]
 ##' @return A subscripted \code{\link{dist}} object.
 ##' @export 
 ##' @method subscript dist
-subscript.dist <- function(x, i, ...){
+subscript.dist <- function(x, i, ...) as.dist(subscript(as.longDist(x), i))
 
-    stop("not finished")
-    as.dist(subscript(as.longDist(x), i))
-    
-    ##                                     # compute subscript
-    ## n <- attr(x, 'Size') # size of matrix
-    ## iRow <- rep(1:(n-1), (n-1):1) # row indices to keep
-    ## iCol <- iRow + sequence((n-1):1) # col indices to keep
-    ## iVector <- order((match(iRow, i) * match(iCol, i)), na.last = NA)
-    ## out <- x[iVector]
-
-    ##                                     # fix up attributes
-    ## attributes(out) <- attributes(x)
-    ## attr(out, 'Size') <- length(i)
-    ## if(is.null(attr(out, 'Labels'))) 
-    ##     attr(out, 'Labels') <- as.character(i)
-    ## else
-    ##     attr(out, 'Labels') <- attr(x, 'Labels')[i]
-    
-    ## return(out)
-    
-}
 
 ##' Subscript a phylogenetic tree
 ##' 

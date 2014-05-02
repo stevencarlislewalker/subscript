@@ -75,14 +75,13 @@ reOrder.phylo <- function(x, i, ...) {
 ##' @method reOrder speciesList
 ##' @export
 reOrder.speciesList <- function(x, i, ...){
-    ## ids <- attr(x, "dimIds")
-    ## x <- x[i[[1]]]
-    ## out <- lapply(x, intersect, x = i[[2]])
-    ## attr(out, "dimIds") <- ids
-    ## class(out) <- "speciesList"
-    ## return(out)
+    ids <- attr(x, "dimIds")
+    x <- x[i[[1]]]
+    out <- lapply(x, reOrder, i[[2]])
+    attr(out, "dimIds") <- ids
+    class(out) <- "speciesList"
+    return(out)
 }
-
 
 
 ##' @importFrom stats reorder

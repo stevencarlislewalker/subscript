@@ -9,7 +9,7 @@ longDist(x, ...)
 
 as.longDist(x, ...)
 
-\method{as.longDist}{dist}(x, norm = FALSE, reorder = FALSE,
+\method{as.longDist}{dist}(x, norm = FALSE, reOrder = FALSE,
   sortorder = FALSE, ...)
 }
 \arguments{
@@ -20,9 +20,9 @@ as.longDist(x, ...)
 \item{norm}{normalize distances such that the maximum distance
 equals one?}
 
-\item{reorder}{see \code{\link{reorder.longDist}}}
+\item{reOrder}{see \code{\link{reOrder.longDist}}}
 
-\item{sortorder}{similar to \code{\link{reorder}} but with sorted
+\item{sortorder}{similar to \code{\link{reOrder}} but with sorted
 \code{\link{dNames}}}
 }
 \value{

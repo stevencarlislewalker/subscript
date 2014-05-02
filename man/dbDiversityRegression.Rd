@@ -9,9 +9,9 @@
 \alias{posterior}
 \title{Simple linear regression on distance-based diversity indices}
 \usage{
-dbDiversityProfile(slist, sdist1, sdist2, aGrid, reorder = TRUE)
+dbDiversityProfile(slist, sdist1, sdist2, aGrid, reOrder = TRUE)
 
-dbDiversityRegression(slist, sdist1, sdist2, resp, aGrid, reorder = TRUE)
+dbDiversityRegression(slist, sdist1, sdist2, resp, aGrid, reOrder = TRUE)
 
 \method{logLik}{dbDiversityRegression}(object, ...)
 
@@ -35,7 +35,7 @@ aHpd(object, level = 0.95)
 \item{aGrid}{Optional grid of weighting parameters (see
 \code{\link{combineDists}})}
 
-\item{reorder}{Passed to \code{\link{subscript.longDist}}}
+\item{reOrder}{Passed to \code{\link{subscript.longDist}}}
 
 \item{object}{A \code{\link{dbDiversityRegression}} object}
 

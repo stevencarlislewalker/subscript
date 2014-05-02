@@ -79,19 +79,6 @@ print.poly.data.frame <- function(x, full = FALSE,...) {
     invisible(x)
 }
 
-##' Reorder poly data frame
-##'
-##' @param x a \code{\link{poly.data.frame}}
-##' @param X optional \code{\link{dNames}} on which to reorder
-##' \code{x}
-##' @param ... not used
-##' @return reordered \code{\link{poly.data.frame}}
-##' @export
-reorder.poly.data.frame <- function(x, X, ...) {
-    if(missing(X)) X <- dNames(x)
-    ss(x, X)
-}
-
 ##' Within a poly data frame
 ##'
 ##' @param data \code{\link{poly.data.frame}} object

@@ -5,17 +5,17 @@
 ##' @param a Weighting parameter (number between 0 and 1 giving the
 ##' weighting towards \code{dist1})
 ##' @param p Metric exponent (\code{p = 2} for Euclidean)
-##' @param reorder Passed to \code{\link{subscript.longDist}}
+##' @param reOrder Passed to \code{\link{subscript.longDist}}
 ##' @return combined distance matrix
 ##' @export
-combineDists <- function(dist1, dist2, a, p = 2, reorder = TRUE) {
+combineDists <- function(dist1, dist2, a, p = 2, reOrder = TRUE) {
     dist1 <- as.longDist(dist1)
     dist2 <- as.longDist(dist2)
-    ## FIXME:  move this check to reorder ??
+    ## FIXME:  move this check to reOrder ??
     if(!identical(sort(unlist(dNames(dist1), use.names = FALSE)),
                   sort(unlist(dNames(dist2), use.names = FALSE))))
         stop("incompatible distance matrices")
-    if(reorder) dist2 <- reorder(dist2, dNames(dist1)[[1]])
+    if(reOrder) dist2 <- reOrder(dist2, dNames(dist1)[[1]])
     distsOut <- ( (a * (dist1$dist^p)) +
                 ((1-a) * (dist2$dist^p)) )^(1/p)
     dist1$dist <- distsOut
@@ -51,7 +51,7 @@ combineDists <- function(dist1, dist2, a, p = 2, reorder = TRUE) {
 ##' @export
 meanPairwiseDist <- function(slist, sdist) {
     sdist <- as.longDist(sdist)
-    distsPerSite <- lapply(slist, subscript, x = sdist, reorder = FALSE)
+    distsPerSite <- lapply(slist, subscript, x = sdist, reOrder = FALSE)
     distsPerSite <- lapply(distsPerSite, "[[", "dist")
     return(sapply(distsPerSite, mean))
 }
@@ -61,13 +61,13 @@ meanPairwiseDist <- function(slist, sdist) {
 ##' @rdname dbDiversityRegression
 ##' @export
 
-dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, reorder = TRUE) {
+dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, reOrder = TRUE) {
     if(missing(aGrid)) aGrid <- seq(0, 1, 0.01)
     sdist1 <- as.longDist(sdist1)
     sdist2 <- as.longDist(sdist2)
     dists <- lapply(aGrid, combineDists,
                     dist1 = sdist1, dist2 = sdist2,
-                    reorder = reorder)
+                    reOrder = reOrder)
     diversities <- sapply(dists, meanPairwiseDist, slist = slist)
     colnames(diversities) <- aGrid
     return(diversities)
@@ -81,13 +81,13 @@ dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, reorder = TRUE) {
 ##' @param resp A response variable
 ##' @param aGrid Optional grid of weighting parameters (see 
 ##' \code{\link{combineDists}})
-##' @param reorder Passed to \code{\link{subscript.longDist}}
+##' @param reOrder Passed to \code{\link{subscript.longDist}}
 ##' @return TODO
 ##' @rdname dbDiversityRegression
 ##' @export
-dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid, reorder = TRUE) {
+dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid, reOrder = TRUE) {
 
-    diversities <- dbDiversityProfile(slist, sdist1, sdist2, aGrid, reorder)
+    diversities <- dbDiversityProfile(slist, sdist1, sdist2, aGrid, reOrder)
     aGrid <- as.numeric(colnames(diversities))
     resp <- subscript(resp,
                       structure(rownames(diversities), 

@@ -52,7 +52,7 @@
 ##'
 ##' longDist(tree)
 ##' longDist(traits)
-##' reorder(longDist(tree), dNames(traits)[[1]])
+##' reOrder(longDist(tree), dNames(traits)[[1]])
 ##'
 ##' (FPDist <- combineDists(tree, traits, 0.5))
 ##' meanPairwiseDist(pdf$slist, setDimIds(FPDist, "species"))
@@ -92,7 +92,7 @@ NULL
 ##' @export
 subscript <- function(x, i, ...) {
     if(hasBeenProcessed(i)) {
-        UseMethod('subscript')
+        UseMethod("subscript")
     } else {
         i <- processSubscript(x, i)
         subscript(x, i, ...)
@@ -106,7 +106,6 @@ ss <- function(x, i, ...) subscript(x, i, ...)
 ##' @rdname subscript
 ##' @method subscript default
 subscript.default <- function(x, i, ...) {
-    ## stop("subscripting not yet written")
     if(!is.recursive(i)) i <- list(i)
     out <- do.call("[", c(list(x), i))
     attr(out, "dimIds") <- attr(x, "dimIds")
@@ -182,7 +181,6 @@ subscript.phylo <- function(x, i, ...){
 ##' @return subscripted \code{specieslist}
 ##' @export
 subscript.speciesList <- function(x, i, ...){
-    
     ids <- attr(x, "dimIds")
     x <- x[i[[1]]]
     out <- lapply(x, intersect, i[[2]])
@@ -196,17 +194,17 @@ subscript.speciesList <- function(x, i, ...){
 ##'
 ##' @param x \code{longDist} object
 ##' @param i subscript list
-##' @param reorder should the order be arranged to be consistent with
+##' @param reOrder should the order be arranged to be consistent with
 ##' \code{\link{dist}} objects?
 ##' @param ... Not used
 ##' @return subscripted \code{longDist} object
 ##' @export
-subscript.longDist <- function(x, i, reorder = TRUE, ...){
+subscript.longDist <- function(x, i, reOrder = TRUE, ...){
     if(length(i) < 2L) {
         out <- data.frame(row = NA, col = NA, dist = 0)
     } else {
         out <- x[(x$row %in% i) & (x$col %in% i), ]
-        if(reorder) out <- reorder(out, dNames(out)[[1]])
+        if(reOrder) out <- reOrder(out, dNames(out)[[1]])
     }
     attr(out, "dimIds") <- attr(x, "dimIds")
     return(out)

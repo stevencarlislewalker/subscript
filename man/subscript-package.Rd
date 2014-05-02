@@ -56,7 +56,7 @@ nDims(tree)
 
 longDist(tree)
 longDist(traits)
-reorder(longDist(tree), dNames(traits)[[1]])
+reOrder(longDist(tree), dNames(traits)[[1]])
 
 (FPDist <- combineDists(tree, traits, 0.5))
 meanPairwiseDist(pdf$slist, setDimIds(FPDist, "species"))

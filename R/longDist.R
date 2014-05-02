@@ -25,13 +25,13 @@ as.longDist.longDist <- function(x, ...) x
 
 ##' @param norm normalize distances such that the maximum distance
 ##' equals one?
-##' @param reorder see \code{\link{reorder.longDist}}
-##' @param sortorder similar to \code{\link{reorder}} but with sorted
+##' @param reOrder see \code{\link{reOrder.longDist}}
+##' @param sortorder similar to \code{\link{reOrder}} but with sorted
 ##' \code{\link{dNames}}
 ##' @rdname longDist
 ##' @export
 as.longDist.dist <- function(x,   norm = FALSE,
-                               reorder = FALSE,
+                               reOrder = FALSE,
                              sortorder = FALSE, ...) {
     n <- attr(x, 'Size') # size of matrix
     nms <- dNames(x)[[1]]
@@ -42,8 +42,8 @@ as.longDist.dist <- function(x,   norm = FALSE,
                       stringsAsFactors = FALSE)
     if(norm) out$dist <- out$dist/max(out$dist)
     class(out) <- c("longDist", "data.frame")
-    if(reorder) out <- reorder(out, nms)
-    if(sortorder) out <- reorder(out, sort(nms))
+    if(reOrder) out <- reOrder(out, nms)
+    if(sortorder) out <- reOrder(out, sort(nms))
     return(out)
 }
 
@@ -66,35 +66,4 @@ as.dist.longDist <- function(m, diag = FALSE, upper = FALSE) {
     nms <- dNames(m)[[1]]
 }
 
-##' Reorder distances as in a dist object
-##'
-##' @param x \code{longDist} object
-##' @param X character vector giving order
-##' @param ... not used
-##' @return vector reordered version of \code{x}
-##' @importFrom stats reorder
-##' @export
-reorder.longDist <- function(x, X, ...) {
-                                        # convert object names to
-                                        # numeric
-    inds <- cbind(match(x$row, X),
-                  match(x$col, X))
-                                        # get lower ranked names in
-                                        # row's column
-    rowSortedMat <- t(apply(inds, 1, sort))
-                                        # intermediate form of output
-    out <- setNames(data.frame(rowSortedMat, x$dist),
-                    c("row","col","dist"))
-                                        # sort by col and then row
-                                        # indices
-    out <- out[order(out$col),]
-    out <- out[order(out$row),]
-                                        # convert back from numeric to
-                                        # character
-    out$row <- X[out$row]
-    out$col <- X[out$col]
-    attr(out, "dimIds") <- attr(x, "dimIds")
-    class(out) <- c("longDist", "data.frame")
-    return(out)
-}
 

@@ -75,9 +75,11 @@ reOrder.phylo <- function(x, i, ...) {
 ##' @method reOrder speciesList
 ##' @export
 reOrder.speciesList <- function(x, i, ...){
+    ## FIXME:  testing!
     ids <- attr(x, "dimIds")
     x <- x[i[[1]]]
-    out <- lapply(x, reOrder, i[[2]])
+    xi <- lapply(x, order %f% match, i[[2]])
+    out <- mapply("[", x, xi, SIMPLIFY = FALSE)
     attr(out, "dimIds") <- ids
     class(out) <- "speciesList"
     return(out)

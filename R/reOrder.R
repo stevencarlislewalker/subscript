@@ -12,7 +12,11 @@
 ##' @seealso \code{\link{reorder}}
 ##' @export
 reOrder <- function(x, i, ...) {
-    ## FIXME: all this reOrder stuff is pretty DRY
+    if(missing(i)) i <- dNames(x)
+    ## FIXME: all this reOrder stuff is pretty DRY wrt subscript.
+    ##        however, could do something about this in methods that really do
+    ##        just require a subscript
+    ## FIXME: maybe check for subscripts that don't cover the entire range
     if(hasBeenProcessed(i)) {
         UseMethod("reOrder")
     } else {
@@ -38,8 +42,8 @@ reOrder.default <- function(x, i, ...) {
 ##' @rdname reOrder
 ##' @export
 reOrder.poly.data.frame <- function(x, i, ...) {
-    if(missing(X)) X <- dNames(x)
-    ss(x, X)
+    if(missing(i)) i <- dNames(x)
+    ss(x, i)
 }
 
 
@@ -69,4 +73,22 @@ reOrder.longDist <- function(x, i, ...) {
     attr(out, "dimIds") <- attr(x, "dimIds")
     class(out) <- c("longDist", "data.frame")
     return(out)
+}
+
+
+##' @rdname reOrder
+##' @export
+reOrder.phylo <- function(x, i, ...) {
+    # From http://ape-package.ird.fr/misc/FormatTreeR_24Oct2012.pdf:
+    # "There is no mandatory order for the rows of edge, but they may
+    # be arranged in a way that is efficient for computation and
+    # manipulation."  Therefore, I take it that the code below
+    # conforms to the phylo API.
+
+    xNew <- x
+    xNew$edge[match(1:Ntip(x), x$edge[,2]),2] <- match(x$tip.label, i)
+    xNew$tip.label <- i[]
+
+    attr(xNew, "dimIds") <- attr(x, "dimIds")
+    return(xNew)
 }

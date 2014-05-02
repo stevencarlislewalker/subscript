@@ -3,6 +3,7 @@
 \alias{reOrder}
 \alias{reOrder.default}
 \alias{reOrder.longDist}
+\alias{reOrder.phylo}
 \alias{reOrder.poly.data.frame}
 \alias{ro}
 \title{Reorder an object}
@@ -16,6 +17,8 @@ ro(x, i, ...)
 \method{reOrder}{poly.data.frame}(x, i, ...)
 
 \method{reOrder}{longDist}(x, i, ...)
+
+\method{reOrder}{phylo}(x, i, ...)
 }
 \arguments{
 \item{x}{An object with data to be reordered.}

@@ -183,7 +183,7 @@ subscript.phylo <- function(x, i, ...){
 subscript.speciesList <- function(x, i, ...){
     ids <- attr(x, "dimIds")
     x <- x[i[[1]]]
-    out <- lapply(x, intersect, i[[2]])
+    out <- lapply(x, intersect, x = i[[2]])
     attr(out, "dimIds") <- ids
     class(out) <- "speciesList"
     return(out)

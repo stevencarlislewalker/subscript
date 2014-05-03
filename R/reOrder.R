@@ -68,6 +68,11 @@ reOrder.phylo <- function(x, i, ...) {
     xNew$edge[match(1:Ntip(x), x$edge[,2]),2] <- match(x$tip.label, i)
     xNew$tip.label <- i[]
 
+    if(inherits(x, "chronos")) {
+        cCall <- attr(x, "call")
+        cCall$phy <- xNew
+        xNew <- eval(cCall)
+    }
     attr(xNew, "dimIds") <- attr(x, "dimIds")
     return(xNew)
 }

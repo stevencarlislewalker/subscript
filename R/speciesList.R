@@ -4,10 +4,15 @@
 ##' present at various sites.
 ##' @param nms Optional names for the sites.
 ##' @param ... Not used.
-##' @return \code{speciesList} object
+##' @return \code{speciesList} object.  A list with one element for
+##' each site giving a character vector of the names of the species
+##' present at that site.  Also includes an attribute
+##' \code{"totalSpeciesList"} with the list of all species over all
+##' sites.
 ##' @export
 speciesList <- function(x, nms, ...) {
     if(!missing(nms)) names(x) <- nms
+    attr(x, "totalSpeciesList") <- unique(unlist(x, use.names = FALSE))
     class(x) <- "speciesList"
     return(x)
 }
@@ -21,9 +26,10 @@ as.data.frame.speciesList <- function(x, ...) {
 
 
 ##' @export
-as.table.speciesList <- function(x, ...)
-    xtabs( ~ sites + species, as.data.frame(x))
-
+as.table.speciesList <- function(x, ...) {
+    out <- xtabs( ~ sites + species, as.data.frame(x))
+    out[, dNames(x)[[2]]] # preserve order in attr(., "totalSpeciesList")
+}
 
 ##' @export
 as.matrix.speciesList <- function(x, ...) {
@@ -68,10 +74,10 @@ as.speciesList.default <- function(x) stop("not yet writen")
 ##' @export
 as.speciesList.matrix <- function(x) {
     xLogical <- lapply(as.data.frame(t(x)), as.logical)
-    ## out <- lapply(xLogical, "[", x = colnames(x))
     cn <- colnames(x)
     out <- list()
     for(i in names(xLogical)) out[[i]] <- cn[xLogical[[i]]]
+    attr(out, "totalSpeciesList") <- unique(unlist(out, use.names = FALSE))
     class(out) <- "speciesList"
     return(out)
 }

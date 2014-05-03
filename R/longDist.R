@@ -73,3 +73,6 @@ as.dist.longDist <- function(m, diag = FALSE, upper = FALSE) {
 }
 
 
+##' @export
+as.matrix.longDist <- function(x, ...) as.matrix(as.dist(x))
+

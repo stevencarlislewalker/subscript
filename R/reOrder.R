@@ -13,10 +13,12 @@
 ##' @export
 reOrder <- function(x, i, ...) {
     if(missing(i)) i <- dNames(x)
+    
     ## FIXME: all this reOrder stuff is pretty DRY wrt subscript.
     ##        however, could do something about this in methods that really do
     ##        just require a subscript
-    ## FIXME: maybe check for subscripts that don't cover the entire range
+    ## FIXME: maybe check for subscripts that don't cover the entire range ??
+    ##        or maybe its ok if they don't span the range ??
     if(hasBeenProcessed(i)) {
         UseMethod("reOrder")
     } else {
@@ -33,7 +35,7 @@ ro <- function(x, i, ...) reOrder(x, i, ...)
 ##' @export
 reOrder.default <- function(x, i, ...) {
     if(!is.recursive(i)) i <- list(i)
-    out <- do.call("reOrder", c(list(x), i))
+    out <- do.call("[", c(list(x), i))
     attr(out, "dimIds") <- attr(x, "dimIds")
     return(out)
 }
@@ -86,6 +88,7 @@ reOrder.speciesList <- function(x, i, ...){
     xi <- lapply(x, order %f% match, i[[2]])
     out <- mapply("[", x, xi, SIMPLIFY = FALSE)
     attr(out, "dimIds") <- ids
+    attr(out, "totalSpeciesList") <- i[[2]]
     class(out) <- "speciesList"
     return(out)
 }
@@ -134,4 +137,5 @@ reOrder.poly.data.frame <- function(x, i, ...) {
     for(j in seq_along(x)) x[[j]] <- reOrder(x[[j]], i[ids[[j]]])
     return(x)
 }
+
 

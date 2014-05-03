@@ -144,9 +144,9 @@ dNames.phylo <- function(x) dimIdsExtract(x, list(x$tip.label))
 
 
 ##' @export
-dNames.speciesList <- function(x) dimIdsExtract(x,
-                                                list(names(x),
-                                                     (unique %f% unlist)(x)))
+dNames.speciesList <- function(x) {
+    dimIdsExtract(x, list(names(x), attr(x, "totalSpeciesList")))
+}
 
 
 ##' @export

@@ -14,7 +14,11 @@ present at various sites.}
 \item{...}{Not used.}
 }
 \value{
-\code{speciesList} object
+\code{speciesList} object.  A list with one element for
+each site giving a character vector of the names of the species
+present at that site.  Also includes an attribute
+\code{"totalSpeciesList"} with the list of all species over all
+sites.
 }
 \description{
 Species list

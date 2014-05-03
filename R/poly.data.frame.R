@@ -163,20 +163,24 @@ concat2NestedIndex <- function(x) {
     rep(names(x), nDimsPerVariable)
 }
 
-##' @param nms1 names
-##' @param nms2 names
+##' @param nms1 list of names vectors
+##' @param nms2 list of names vectors
 ##' @rdname utility
 ##' @export
 compareNames <- function(nms1, nms2){
+    ## returns a matrix:
+    ## rows represent list elements of nms1
+    ## cols represent list elements of nms2
+    ## entry i,j gives the number of elements that are in
+    ## nms2[[j]] but NOT in nms1[[i]] (in a setdiff(length(.)) way)
     n <- length(nms1)
     m <- length(nms2)
     met <- matrix(nrow = n, ncol = m)
     for(i in 1:n) for(j in 1:m)
-        met[i, j] <- (length %f% setdiff)(nms1[[j]], nms2[[i]])
-    dimnames(met) <- list(names(nms2), names(nms1))
+        met[i, j] <- (length %f% setdiff)(nms2[[j]], nms1[[i]])
+    dimnames(met) <- list(names(nms1), names(nms2))
     return(met)
 }
-
 
 
 ## Internal functions

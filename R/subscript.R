@@ -213,8 +213,6 @@ processSubscript <- function(x, i, ...) {
                                         # dimIds
                 if(nd != li) stop("dimensions being subscripted ambiguous")
                 i <- lapply(i, as.character)
-                if(!allIn(i, dn[[1]]))
-                    stop("subscript out of range")
             } else {
                                         # recursive subscript,
                                         # multidimensional object,

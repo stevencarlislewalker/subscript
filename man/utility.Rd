@@ -26,9 +26,9 @@ compareNames(nms1, nms2)
 \arguments{
 \item{x}{A \code{\link{poly.data.frame}} object}
 
-\item{nms1}{names}
+\item{nms1}{list of names vectors}
 
-\item{nms2}{names}
+\item{nms2}{list of names vectors}
 }
 \description{
 Utility functions for poly.data.frame

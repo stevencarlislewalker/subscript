@@ -9,9 +9,9 @@
 \alias{posterior}
 \title{Simple linear regression on distance-based diversity indices}
 \usage{
-dbDiversityProfile(slist, sdist1, sdist2, aGrid, reOrder = TRUE)
+dbDiversityProfile(slist, sdist1, sdist2, aGrid, ...)
 
-dbDiversityRegression(slist, sdist1, sdist2, resp, aGrid, reOrder = TRUE)
+dbDiversityRegression(slist, sdist1, sdist2, resp, diversities, aGrid, ...)
 
 \method{logLik}{dbDiversityRegression}(object, ...)
 
@@ -26,11 +26,13 @@ aHpd(object, level = 0.95)
 \arguments{
 \item{slist}{A \code{\link{speciesList}} object}
 
-\item{sdist1}{A distance matrix}
+\item{sdist1}{An object that is coercible to \code{\link{longDist}}}
 
-\item{sdist2}{A second distance matrix}
+\item{sdist2}{A second object that is coercible to \code{\link{longDist}}}
 
 \item{resp}{A response variable}
+
+\item{diversities}{[optional] Output of \code{\link{dbDiversityProfile}}}
 
 \item{aGrid}{Optional grid of weighting parameters (see
 \code{\link{combineDists}})}
@@ -64,5 +66,15 @@ density region for the tuning parameter, a
 The 100\code{p}\% highest posterior density region for 'a' is
 the subset of the interval between 0 and 1, which contains
 100\code{p}\% of the probability.
+}
+\note{
+There are two ways to provide diversity inputs: (1)
+\code{slist}, \code{sdist1}, and \code{sdist2}, or (2)
+\code{diversities}.  If the former,
+\code{\link{dbDiversityProfile}} is called to compute
+\code{diversities} from \code{slist}, \code{sdist1}, and
+\code{sdist2}.  Also note that the coercion of \code{sdist1} and
+\code{sdist2} forces normalization of the distances (see
+\code{norm} argument of \code{\link{longDist}}).
 }
 

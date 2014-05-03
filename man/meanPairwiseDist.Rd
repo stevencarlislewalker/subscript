@@ -3,12 +3,14 @@
 \alias{meanPairwiseDist}
 \title{Mean pairwise distance}
 \usage{
-meanPairwiseDist(slist, sdist)
+meanPairwiseDist(slist, sdist, ...)
 }
 \arguments{
 \item{slist}{A \code{\link{speciesList}} object}
 
 \item{sdist}{A \code{\link{longDist}} object among species}
+
+\item{...}{Passed to \code{\link{as.longDist}}}
 }
 \value{
 vector of average pairwise distance for each site

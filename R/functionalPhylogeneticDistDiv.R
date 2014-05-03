@@ -5,17 +5,19 @@
 ##' @param a Weighting parameter (number between 0 and 1 giving the
 ##' weighting towards \code{dist1})
 ##' @param p Metric exponent (\code{p = 2} for Euclidean)
-##' @param reOrder Passed to \code{\link{subscript.longDist}}
+##' @param ... Passed to \code{\link{as.longDist}}
+##' @note \code{dist1} and \code{dist2} are coererced to
+##' \code{\link{longDist}} objects with \code{norm = TRUE}.
 ##' @return combined distance matrix
 ##' @export
-combineDists <- function(dist1, dist2, a, p = 2, reOrder = TRUE) {
-    dist1 <- as.longDist(dist1)
-    dist2 <- as.longDist(dist2)
-    ## FIXME:  move this check to reOrder ??
-    if(!identical(sort(unlist(dNames(dist1), use.names = FALSE)),
-                  sort(unlist(dNames(dist2), use.names = FALSE))))
-        stop("incompatible distance matrices")
-    if(reOrder) dist2 <- reOrder(dist2, dNames(dist1)[[1]])
+combineDists <- function(dist1, dist2, a, p = 2, ...) {
+    dist1 <- as.longDist(dist1, ...)
+    dist2 <- as.longDist(dist2, ...)
+    ## ## FIXME:  move this check to reOrder ??
+    ## if(!identical(sort(unlist(dNames(dist1), use.names = FALSE)),
+    ##               sort(unlist(dNames(dist2), use.names = FALSE))))
+    ##     stop("incompatible distance matrices")
+    ## if(reOrder) dist2 <- reOrder(dist2, dNames(dist1)[[1]])
     distsOut <- ( (a * (dist1$dist^p)) +
                 ((1-a) * (dist2$dist^p)) )^(1/p)
     dist1$dist <- distsOut
@@ -47,11 +49,13 @@ combineDists <- function(dist1, dist2, a, p = 2, reOrder = TRUE) {
 ##'
 ##' @param slist A \code{\link{speciesList}} object
 ##' @param sdist A \code{\link{longDist}} object among species
+##' @param ... Passed to \code{\link{as.longDist}}
 ##' @return vector of average pairwise distance for each site
 ##' @export
-meanPairwiseDist <- function(slist, sdist) {
-    sdist <- as.longDist(sdist)
-    distsPerSite <- lapply(slist, subscript, x = sdist, reOrder = FALSE)
+meanPairwiseDist <- function(slist, sdist, ...) {
+    sdist <- as.longDist(sdist, ...)
+    distsPerSite <- lapply(slist, subscript, x = sdist,
+                           reOrder = FALSE) # for speed, reOrder not necessary here
     distsPerSite <- lapply(distsPerSite, "[[", "dist")
     return(sapply(distsPerSite, mean))
 }
@@ -60,14 +64,12 @@ meanPairwiseDist <- function(slist, sdist) {
 ##' @return TODO
 ##' @rdname dbDiversityRegression
 ##' @export
-
-dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, reOrder = TRUE) {
+dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, ...) {
     if(missing(aGrid)) aGrid <- seq(0, 1, 0.01)
-    sdist1 <- as.longDist(sdist1)
-    sdist2 <- as.longDist(sdist2)
+    sdist1 <- as.longDist(sdist1, ...)
+    sdist2 <- as.longDist(sdist2, ...)
     dists <- lapply(aGrid, combineDists,
-                    dist1 = sdist1, dist2 = sdist2,
-                    reOrder = reOrder)
+                    dist1 = sdist1, dist2 = sdist2)
     diversities <- sapply(dists, meanPairwiseDist, slist = slist)
     colnames(diversities) <- aGrid
     return(diversities)
@@ -76,18 +78,34 @@ dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, reOrder = TRUE) {
 ##' Simple linear regression on distance-based diversity indices
 ##'
 ##' @param slist A \code{\link{speciesList}} object
-##' @param sdist1 A distance matrix
-##' @param sdist2 A second distance matrix
+##' @param sdist1 An object that is coercible to \code{\link{longDist}}
+##' @param sdist2 A second object that is coercible to \code{\link{longDist}}
 ##' @param resp A response variable
+##' @param diversities [optional] Output of \code{\link{dbDiversityProfile}}
 ##' @param aGrid Optional grid of weighting parameters (see 
 ##' \code{\link{combineDists}})
 ##' @param reOrder Passed to \code{\link{subscript.longDist}}
 ##' @return TODO
+##' @note There are two ways to provide diversity inputs: (1)
+##' \code{slist}, \code{sdist1}, and \code{sdist2}, or (2)
+##' \code{diversities}.  If the former,
+##' \code{\link{dbDiversityProfile}} is called to compute
+##' \code{diversities} from \code{slist}, \code{sdist1}, and
+##' \code{sdist2}.  Also note that the coercion of \code{sdist1} and
+##' \code{sdist2} forces normalization of the distances (see
+##' \code{norm} argument of \code{\link{longDist}}).
 ##' @rdname dbDiversityRegression
 ##' @export
-dbDiversityRegression <- function(slist, sdist1, sdist2, resp, aGrid, reOrder = TRUE) {
+dbDiversityRegression <- function(slist, sdist1, sdist2, resp, diversities, aGrid, ...) {
 
-    diversities <- dbDiversityProfile(slist, sdist1, sdist2, aGrid, reOrder)
+    typeI  <- missing(slist) & missing(sdist1) & missing(sdist2)
+    typeII <- missing(diversities)
+    if(typeI & typeII) stop("one of either (1) slist, sdist1, and sdist2 ",
+                            "or (2) diversities must be specified")
+    if(!typeI & !typeII) stop("if diversities are specified, slist, sdist1, ",
+                              "and sdist2 cannot be specified")
+    if(typeII) diversities <- dbDiversityProfile(slist, sdist1, sdist2, aGrid, ...)
+
     aGrid <- as.numeric(colnames(diversities))
     resp <- subscript(resp,
                       structure(rownames(diversities), 

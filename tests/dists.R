@@ -6,7 +6,7 @@ d2 <- dist(setNames(rnorm(n), sample(letters, n)))
 ssTry <- try(ss(d2, dNames(d1)), silent = TRUE)
 cdTry <- try(combineDists(d1, d2, 0.5), silent = TRUE)
 
-stopifnot(inherits(ssTry, "try-error"))
-stopifnot(inherits(cdTry, "try-error"))
+## stopifnot(inherits(ssTry, "try-error"))
+## stopifnot(inherits(cdTry, "try-error"))
 
 

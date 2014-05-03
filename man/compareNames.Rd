@@ -11,10 +11,10 @@ compareNames(nms1, nms2)
 \item{nms2}{list of names vectors}
 }
 \value{
-a matrix with: (1) rows representing list elements of
-\code{nms1} and (2) cols representing list elements of \code{nms2}
-entry \code{i, j} gives the number of elements that are in
-\code{nms2[[j]]} but NOT in \code{nms1[[i]]} (in a
+A \code{\link{matrix}} with rows representing list
+elements of \code{nms1} and columns representing list elements of
+\code{nms2}.  Entry \code{i, j} gives the number of elements that
+are in \code{nms2[[j]]} but not in \code{nms1[[i]]} (in a
 \code{setdiff(length(.))} way)
 }
 \description{

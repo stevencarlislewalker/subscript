@@ -167,10 +167,10 @@ concat2NestedIndex <- function(x) {
 ##'
 ##' @param nms1 list of names vectors
 ##' @param nms2 list of names vectors
-##' @return a matrix with: (1) rows representing list elements of
-##' \code{nms1} and (2) cols representing list elements of \code{nms2}
-##' entry \code{i, j} gives the number of elements that are in
-##' \code{nms2[[j]]} but NOT in \code{nms1[[i]]} (in a
+##' @return A \code{\link{matrix}} with rows representing list
+##' elements of \code{nms1} and columns representing list elements of
+##' \code{nms2}.  Entry \code{i, j} gives the number of elements that
+##' are in \code{nms2[[j]]} but not in \code{nms1[[i]]} (in a
 ##' \code{setdiff(length(.))} way)
 ##' @seealso \code{\link{setdiff}}, \code{\link{length}}
 ##' @export

@@ -1,8 +1,7 @@
 example("subscript-package", package = "subscript")
 
 ss(as.dist(pdf$geog), c("b", "d", "a"))
-dist(pdf$coord)
-
+all.equal(dist(pdf$coord), as.dist(pdf$geog))
 
 
 

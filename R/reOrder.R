@@ -75,7 +75,12 @@ reOrder.phylo <- function(x, i, ...) {
 ##' @method reOrder speciesList
 ##' @export
 reOrder.speciesList <- function(x, i, ...){
-    ## FIXME:  testing!
+    ## FIXME: testing!  FIXME: species lists don't really have an
+    ## order, do they ??  Maybe have an attribute with dNames in _the_
+    ## order ??  The problem is that even if every site has the set
+    ## species order, a call to dNames on the reordered speciesList
+    ## won't come out in the correct order.  But maybe this doesn't
+    ## matter ??
     ids <- attr(x, "dimIds")
     x <- x[i[[1]]]
     xi <- lapply(x, order %f% match, i[[2]])

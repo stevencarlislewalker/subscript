@@ -100,7 +100,7 @@ reOrder.speciesList <- function(x, i, ...){
 
 
 ##' @importFrom stats reorder
-##' @method reOrder poly.data.frame
+##' @method reOrder longDist
 ##' @rdname reOrder
 ##' @export
 reOrder.longDist <- function(x, i, ...) {

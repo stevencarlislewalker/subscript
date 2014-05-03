@@ -25,7 +25,7 @@ ro(x, i, ...)
 
 \method{reOrder}{speciesList}(x, i, ...)
 
-\method{reOrder}{poly.data.frame}(x, i, ...)
+\method{reOrder}{longDist}(x, i, ...)
 
 \method{reOrder}{poly.data.frame}(x, i, ...)
 }

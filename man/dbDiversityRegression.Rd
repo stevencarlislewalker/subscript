@@ -37,7 +37,7 @@ aHpd(object, level = 0.95)
 \item{aGrid}{Optional grid of weighting parameters (see
 \code{\link{combineDists}})}
 
-\item{reOrder}{Passed to \code{\link{subscript.longDist}}}
+\item{...}{Passed to \code{\link{subscript.longDist}}}
 
 \item{object}{A \code{\link{dbDiversityRegression}} object}
 

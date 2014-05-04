@@ -24,27 +24,6 @@ combineDists <- function(dist1, dist2, a, p = 2, ...) {
     return(dist1)
 }
 
-## param formula One-sided \code{\link{formula}} object giving
-## `+`-separated expressions for the functional and phylogenetic
-## distance matrices
-## param data A \code{\link{list}} or \code{\link{poly.data.frame}}
-## object within which to evaluate \code{formula}
-##     function(formula, data, a, p = 2) {
-##     Fexpr <- formula[[2]][[2]]
-##     FDist <- eval(Fexpr, data)
-##     Pexpr <- formula[[2]][[3]]
-##     PDist <- eval(Pexpr, data)
-##     PDist <- ss(PDist, dNames(FDist)[[1]])
-##     FPDistOut <- ( (a * (FDist^p)) +
-##                   ((1-a) * (PDist^p)) )^(1/p)
-##     if(is.poly.data.frame(data)) {
-##         Fdat <- data[[match(all.vars(formula)[1], names(data))]]
-##         dimIds(FPDistOut) <- dimIds(Fdat)
-##     }
-##     return(FPDistOut)
-## }
-
-
 ##' Mean pairwise distance
 ##'
 ##' @param slist A \code{\link{speciesList}} object
@@ -84,7 +63,7 @@ dbDiversityProfile <- function(slist, sdist1, sdist2, aGrid, ...) {
 ##' @param diversities [optional] Output of \code{\link{dbDiversityProfile}}
 ##' @param aGrid Optional grid of weighting parameters (see 
 ##' \code{\link{combineDists}})
-##' @param reOrder Passed to \code{\link{subscript.longDist}}
+##' @param ... Passed to \code{\link{subscript.longDist}}
 ##' @return TODO
 ##' @note There are two ways to provide diversity inputs: (1)
 ##' \code{slist}, \code{sdist1}, and \code{sdist2}, or (2)

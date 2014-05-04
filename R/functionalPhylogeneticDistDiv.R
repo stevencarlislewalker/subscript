@@ -1,4 +1,4 @@
-##' Euclidean combination of distance matrices
+##' p-norm combination of distance matrices
 ##'
 ##' @param dist1 A distance matrix
 ##' @param dist2 A second distance matrix

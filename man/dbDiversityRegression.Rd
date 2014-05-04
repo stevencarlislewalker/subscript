@@ -41,8 +41,6 @@ aHpd(object, level = 0.95)
 
 \item{object}{A \code{\link{dbDiversityRegression}} object}
 
-\item{...}{not used}
-
 \item{x}{\code{\link{dbDiversityRegression}} object}
 
 \item{level}{Size of the highest posterior density region.}

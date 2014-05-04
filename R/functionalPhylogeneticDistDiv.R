@@ -99,7 +99,6 @@ dbDiversityRegression <- function(slist, sdist1, sdist2, resp, diversities, aGri
 
 ##' @rdname dbDiversityRegression
 ##' @param object A \code{\link{dbDiversityRegression}} object
-##' @param ... not used
 ##' @export
 logLik.dbDiversityRegression <- function(object, ...){
     

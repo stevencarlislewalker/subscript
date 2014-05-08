@@ -125,7 +125,30 @@ subscript.default <- function(x, i, ...) {
 ##' @method subscript data.frame
 ##' @export
 subscript.data.frame <- function(x, i, ...) {
-    x[i, , drop = FALSE]
+                                        # if no dimIds, subscript by
+                                        # rownames
+    if(is.null(di <- dimIds(x))) {
+        return(x[i, , drop = FALSE])
+    } else {
+                                        # if dimIds don't match
+                                        # colnames, subscript by
+                                        # rownames as well
+        if(any(is.na(match(di, colnames(x))))) {
+            return(x[i, , drop = FALSE])
+        }
+                                        # if dimIds match colnames,
+                                        # subscript by matching
+                                        # columns
+        ii <- apply(mapply("%in%", x[di], i), 1, all)
+        return(x[ii, ])
+    }
+
+    ## if(is.null(di <- dimIds(x))) {
+    ##     return(x[i, , drop = FALSE])
+    ## } else {
+    ##     ii <- apply(mapply("%in%", x[di], i), 1, all)
+    ##     return(x[ii, ])
+    ## }
 }
 
 

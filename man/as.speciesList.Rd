@@ -6,16 +6,23 @@
 \alias{as.speciesList.matrix}
 \title{Coerce to species list}
 \usage{
-as.speciesList(x)
+as.speciesList(x, ...)
 
-\method{as.speciesList}{default}(x)
+\method{as.speciesList}{default}(x, ...)
 
-\method{as.speciesList}{matrix}(x)
+\method{as.speciesList}{matrix}(x, ...)
 
-\method{as.speciesList}{data.frame}(x)
+\method{as.speciesList}{data.frame}(x, siteCol, speciesCol, ...)
 }
 \arguments{
 \item{x}{an object}
+
+\item{...}{additional parameters to various methods (e.g. for
+class \code{data.frame})}
+
+\item{siteCol}{Name of column indicating sites}
+
+\item{speciesCol}{Name of column indicating species}
 }
 \value{
 a \code{speciesList} object

@@ -147,13 +147,13 @@ dNames.data.frame <- function(x) {
                                             ## attribute to avoid
                                             ## infinite recurrsion of
                                             ## dimIds(.)
-        return(rownames(x))
+        return(list(rownames(x)))
     } else {
         ii <- match(di, colnames(x))
         if(any(is.na(ii))) {
-            warning("at least some dimIds don't specify columns\n",
-                    "so using rownames as dimIds")
-            return(rownames(x))
+            ## warning("at least some dimIds don't specify columns\n",
+            ##         "so using rownames as dimIds")
+            return(dimIdsExtract(x, list(rownames(x))))
         }
         return(setNames(lapply(x[ii], as.character %f% unique), di))
     }

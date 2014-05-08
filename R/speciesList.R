@@ -91,5 +91,3 @@ as.speciesList.matrix <- function(x, ...) {
 as.speciesList.data.frame <- function(x, siteCol, speciesCol, ...) {
     as.speciesList(as.matrix(x))
 }
-
-

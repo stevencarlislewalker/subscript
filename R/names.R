@@ -106,8 +106,8 @@ calcDimIds <- function(x, nDims, verb = FALSE) {
 
 ## makes things slow, but avoids DRY, and keeps this decision in one
 ## place.  'this decision' being whether to look for dimIds in the
-## attributes or as names of characteristic names, dn
-## FIXME: perhaps just put an attribute on every object ??
+## attributes or as names of characteristic names, dn.  FIXME: perhaps
+## just put a dimIds attribute on every object ??
 dimIdsExtract <- function(x, dn) {
     ## x  -- an object
     ## dn -- characteristic names of object dimensions
@@ -115,6 +115,7 @@ dimIdsExtract <- function(x, dn) {
     if(!is.null(dnn)) names(dn) <- dnn
     return(dn)
 }
+
 
 ##' Extract subscript dimension names
 ##'
@@ -125,6 +126,7 @@ dNames <- function(x) {
     UseMethod("dNames")
 }
 
+
 ##' @export
 dNames.default <- function(x) {
     if(is.null(dn <- dimnames(x)))
@@ -133,7 +135,12 @@ dNames.default <- function(x) {
 }
 
 ##' @export
-dNames.data.frame <- function(x) dimIdsExtract(x, list(rownames(x)))
+dNames.data.frame <- function(x) {
+
+    ## dimIdsExtract(x, list(rownames(x)))
+    
+}
+
 
 ##' @export
 dNames.dist <- function(x) dimIdsExtract(x, list(attr(x, "Labels")))

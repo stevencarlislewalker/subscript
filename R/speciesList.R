@@ -59,20 +59,22 @@ print.speciesList <- function(x, full = FALSE,...) {
 ##' Coerce to species list
 ##'
 ##' @param x an object
+##' @param ... additional parameters to various methods (e.g. for
+##' class \code{data.frame})
 ##' @return a \code{speciesList} object
 ##' @rdname as.speciesList
 ##' @export
-as.speciesList <- function(x) {
+as.speciesList <- function(x, ...) {
     UseMethod("as.speciesList")
 }
 
 ##' @rdname as.speciesList
 ##' @export
-as.speciesList.default <- function(x) stop("not yet writen")
+as.speciesList.default <- function(x, ...) stop("not yet writen")
 
 ##' @rdname as.speciesList
 ##' @export
-as.speciesList.matrix <- function(x) {
+as.speciesList.matrix <- function(x, ...) {
     xLogical <- lapply(as.data.frame(t(x)), as.logical)
     cn <- colnames(x)
     out <- list()
@@ -83,6 +85,11 @@ as.speciesList.matrix <- function(x) {
 }
 
 ##' @rdname as.speciesList
+##' @param siteCol Name of column indicating sites
+##' @param speciesCol Name of column indicating species
 ##' @export
-as.speciesList.data.frame <- function(x) as.speciesList(as.matrix(x))
+as.speciesList.data.frame <- function(x, siteCol, speciesCol, ...) {
+    as.speciesList(as.matrix(x))
+}
+
 

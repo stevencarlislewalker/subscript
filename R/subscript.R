@@ -124,7 +124,9 @@ subscript.default <- function(x, i, ...) {
 ##' @rdname subscript
 ##' @method subscript data.frame
 ##' @export
-subscript.data.frame <- function(x, i, ...) x[i, , drop = FALSE]
+subscript.data.frame <- function(x, i, ...) {
+    x[i, , drop = FALSE]
+}
 
 
 ##' @rdname subscript

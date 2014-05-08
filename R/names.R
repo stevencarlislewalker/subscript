@@ -136,8 +136,13 @@ dNames.default <- function(x) {
 
 ##' @export
 dNames.data.frame <- function(x) {
-
-    ## dimIdsExtract(x, list(rownames(x)))
+    ## FIXME: get this working so that you can identify columns as
+    ## dimensions of replication.  this way you can have
+    ## multi-dimensional data frames (e.g. long-format species
+    ## abundance matrix).  currently, we are only looking for names in
+    ## rownames.  this should be the default (i.e. if dimIds are NULL
+    ## or any (all ??) of the dimIds don't match a colname
+    dimIdsExtract(x, list(rownames(x)))
     
 }
 

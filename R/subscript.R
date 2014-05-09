@@ -252,6 +252,8 @@ processSubscript <- function(x, i, ...) {
                 i <- setNames(lapply(i, as.character), nm)
                 i <- setNames(                  i[di], di)
                 whichNull <- which(sapply(i, is.null))
+                if((length(whichNull) > 1L) & (length(di) > 1L))
+                    stop("some dimIds not found")
                 i[whichNull] <- dn[whichNull]
             }
             if(!all(mapply(allIn, i, dn)))

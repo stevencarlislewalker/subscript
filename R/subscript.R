@@ -139,6 +139,7 @@ subscript.data.frame <- function(x, i, ...) {
                                         # if dimIds match colnames,
                                         # subscript by matching
                                         # columns
+        if(!(is.recursive(i))) i <- setNames(list(i), di)
         ii <- apply(mapply("%in%", x[di], i), 1, all)
         return(x[ii, ])
     }

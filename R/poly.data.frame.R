@@ -4,12 +4,24 @@
 ##'
 ##' @param ... Objects to combine into a \code{poly.data.frame}
 ##' object.
+##' @param unique see \code{\link{make.names}}
 ##' @rdname poly.data.frame
 ##' @export
-poly.data.frame <- function(...) {
-
+poly.data.frame <- function(..., unique = TRUE) {
+                                        # uses data.frame idiom for
+                                        # determining names
+    object <- as.list(substitute(list(...)))[-1L]
     out <- list(...)
+    vnames <- names(out)
+    if(length(vnames) != (n <- length(out))) {
+        vnames <- character(n)
+    }
+    no.vn <- !nzchar(vnames)
+    vnames[no.vn] <- object[no.vn]
+    names(out) <- vnames
     check.poly.data.frame(out)
+
+    names(out) <- make.names(names(out), unique = unique)
     class(out) <- "poly.data.frame"
     return(out)
 }

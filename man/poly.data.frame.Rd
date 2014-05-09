@@ -6,7 +6,7 @@
 \alias{poly.data.frame}
 \title{Poly data frame}
 \usage{
-poly.data.frame(...)
+poly.data.frame(..., unique = TRUE)
 
 is.poly.data.frame(x)
 
@@ -17,6 +17,8 @@ as.poly.data.frame(x, nDims, verb = FALSE)
 \arguments{
 \item{...}{Objects to combine into a \code{poly.data.frame}
 object.}
+
+\item{unique}{see \code{\link{make.names}}}
 
 \item{x}{An \code{R} object}
 
